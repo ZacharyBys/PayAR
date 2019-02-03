@@ -6,6 +6,7 @@ from invoice import make_twilio_client
 
 import pyodbc
 import json
+import payment_handler
 
 app = Flask(__name__)
 
@@ -266,6 +267,38 @@ def checkout(cartId):
     except Exception as e:
         print(e)
         return Response(json.dumps({ 'error': 'Error checking out cart with id {}'.format(cartId) }))
+
+@app.route('/users', methods=['GET'])
+def users():
+    conn = get_db()
+    cursor = conn.cursor()
+
+    try:   
+        rows = cursor.execute('SELECT * FROM users').fetchall()
+        users = {
+            'users': [{ 
+                'id': row.id,
+                'name': row.name,
+                'phone': row.phone,
+                'code': row.code,
+                'email': row.email,
+            } for row in rows]
+        }
+        
+        return Response(json.dumps(users), mimetype='application/json')
+    except Exception as e:
+        print(e)
+        return Response(json.dumps({ 'users': None, 'error': 'Error fetching products' }), mimetype='application/json')
+
+@app.route('/notifications', methods=['POST'])
+def notifications():
+        state = json.loads(request.data)['moneyRequestUpdates'][0]["state"]
+        if state == "REQUEST_FULFILLED":
+                print('success')
+                #TODO: GIVE THIS TO CLIENT SOMEHOW
+        else:
+                print('fail')
+                #TODO: GIVE TO CLIENT THIS FAILURE
 
 if __name__ == '__main__':
     app.run(debug=True)
