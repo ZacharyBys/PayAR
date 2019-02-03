@@ -217,5 +217,13 @@ def users():
         print(e)
         return Response(json.dumps({ 'users': None, 'error': 'Error fetching products' }), mimetype='application/json')
 
+@app.route('/notifications', methods=['POST'])
+def notifications():
+        state = json.loads(request.data)['moneyRequestUpdates'][0]["state"]
+        if state == "REQUEST_FULFILLED":
+                #TODO: GIVE THIS TO CLIENT SOMEHOW
+        else:
+                #TODO: GIVE TO CLIENT THIS FAILURE
+
 if __name__ == '__main__':
     app.run(debug=True)
