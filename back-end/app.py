@@ -234,14 +234,16 @@ def checkout(cartId):
                 ID = product_id;
         END
     '''
-
+    userId = json.loads(request.data)['user_id']
     cart = find_cart(cartId)
-
+    user = find_user(userId)
     query = ''
     values = []
+    cost = 0
     for item in cart['items']:
         product_id = item['product']['id']
         quantity = item['quantity']
+        cost += item['product']['price']
 
         values.append(product_id, quantity)
         query += '''
@@ -264,6 +266,7 @@ def checkout(cartId):
 
     try:
         cursor.execute(query)
+        return Response(json.dumps({'message':payment_handler.request_payment(user,cost,"sms")}))
     except Exception as e:
         print(e)
         return Response(json.dumps({ 'error': 'Error checking out cart with id {}'.format(cartId) }))
@@ -289,6 +292,34 @@ def users():
     except Exception as e:
         print(e)
         return Response(json.dumps({ 'users': None, 'error': 'Error fetching products' }), mimetype='application/json')
+
+def find_user(userId):
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        rows = cursor.execute('''
+            SELECT 
+                *
+            FROM
+                users
+            WHERE id=?
+        ''', 
+        userId).fetchall()
+
+        users = {
+            'users': [{ 
+                'id': row.id,
+                'name': row.name,
+                'phone': row.phone,
+                'code': row.code,
+                'email': row.email,
+            } for row in rows]
+        }
+
+        return users[0]
+    except Exception as e:
+        print(e)
+        return Response(json.dumps({ 'cart': None, 'error': 'Error fetching cart with id {}'.format(cartId)}))
 
 @app.route('/notifications', methods=['POST'])
 def notifications():
