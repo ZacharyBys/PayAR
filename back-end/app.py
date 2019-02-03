@@ -124,13 +124,13 @@ def product(productId):
 @app.route('/carts/<cartId>', methods=['GET', 'PUT', 'DELETE'])
 def cart(cartId):
     if request.method == 'GET':
-        return find_cart(cartId)
+        return Response(json.dumps(find_cart(cartId)), mimetype='application/json')
     else:
         productId = json.loads(request.data)['product_id']
         if request.method == 'PUT':
-            return insert_cart_entry(cartId, productId)
+            return Response(json.dumps(insert_cart_entry(cartId, productId)), mimetype='application/json')
         elif request.method == 'DELETE':
-            return delete_cart_entry(cartId, productId)
+            return Response(json.dumps(delete_cart_entry(cartId, productId)), mimetype='application/json')
 
 def find_cart(cartId):
     conn = get_db()
@@ -138,7 +138,7 @@ def find_cart(cartId):
     try:
         rows = cursor.execute('''
             SELECT 
-                cart_id, product_id, name, description, price
+                cart_id, product_id, name, description, price, inventory_count
             FROM
                 cart_entries 
             JOIN 
@@ -153,6 +153,7 @@ def find_cart(cartId):
             'id': row.product_id,
             'name': row.name,
             'price': float(row.price),
+            'inventory_count': row.inventory_count,
             'description': row.description,
         } for row in rows]
 
@@ -180,15 +181,15 @@ def find_cart(cartId):
         for item in items:
             total += item['product']['price'] * item['quantity']
 
-        return Response(json.dumps({ 
+        return { 
             'cart': {
                 'items': items,
                 'total': total,
             } 
-        }), mimetype='application/json')
+        }
     except Exception as e:
         print(e)
-        return Response(json.dumps({ 'cart': None, 'error': 'Error fetching cart with id {}'.format(cartId)}))
+        return { 'cart': None, 'error': 'Error fetching cart with id {}'.format(cartId)}
 
 def insert_cart_entry(cartId, productId):
     conn = get_db()
@@ -196,10 +197,10 @@ def insert_cart_entry(cartId, productId):
     try:
         row = cursor.execute('INSERT INTO cart_entries (cart_id, product_id) VALUES (?, ?)', cartId, productId)
         conn.commit()
-        return Response(json.dumps({}), mimetype='application/json')
+        return {}
     except Exception as e:
         print(e)
-        return Response(json.dumps({ 'error': 'Error adding product with id {} to cart with id {}'.format(productId, cartId) }))
+        return { 'error': 'Error adding product with id {} to cart with id {}'.format(productId, cartId) }
 
 def delete_cart_entry(cartId, productId):
     conn = get_db()
@@ -207,63 +208,31 @@ def delete_cart_entry(cartId, productId):
     try:
         row = cursor.execute('DELETE TOP(1) FROM cart_entries WHERE cart_id=? AND product_id=?', cartId, productId)
         conn.commit()
-        return Response(json.dumps({}), mimetype='application/json')
+        return {}
     except Exception as e:
         print(e)
-        return Response(json.dumps({ 'error': 'Error deleting product with id {} from cart with id {}'.format(productId, cartId) }), mimetype='application/json')
+        return { 'error': 'Error deleting product with id {} from cart with id {}'.format(productId, cartId) }
 
 @app.route('/carts/<cartId>/checkout', methods=['POST'])
 def checkout(cartId):
-    dropProcedure = 'DROP PROCEDURE IF EXISTS checkout'
-    createProcedure = '''
-     CREATE PROCEDURE checkout (IN product_id INT, IN quantity INT)
-        BEGIN 
-            DECLARE available INT;
-            SET available = (SELECT inventory_count FROM products WHERE ID = product_id);
-            IF 
-                available < quantity 
-            THEN
-                SIGNAL SQLSTATE '45000';
-            END IF;
-
-            UPDATE 
-                products
-            SET
-                inventory_count = inventory_count - quantity
-            WHERE
-                ID = product_id;
-        END
-    '''
-
-    cart = find_cart(cartId)
-
-    query = ''
-    values = []
-    for item in cart['items']:
-        product_id = item['product']['id']
-        quantity = item['quantity']
-
-        values.append(product_id, quantity)
-        query += '''
-            SET @PRODUCT_ID := ?
-            SET @QUANTITY := ?
-
-            CALL checkout(@PRODUCT_ID, @QUANTITY)
-        '''
-
-    values.append(cartId)
-    query += '''
-        DELETE FROM cart_entries WHERE cart_id=?
-    '''
-
     conn = get_db()
     cursor = conn.cursor()
 
-    cursor.execute(dropProcedure)
-    cursor.execute(createProcedure)
-
+    cart = find_cart(cartId)
     try:
-        cursor.execute(query)
+        for item in cart['cart']['items']:
+            product_id = item['product']['id']
+            inventory_count = item['product']['inventory_count']
+            quantity = item['quantity']
+
+            if inventory_count < quantity:
+                raise Exception('Insufficient inventory')
+
+            cursor.execute('UPDATE products SET inventory_count = inventory_count - ? WHERE id=?', quantity, product_id)
+
+        cursor.execute('DELETE FROM cart_entries WHERE cart_id=?', cartId)
+        conn.commit()
+        return json.dumps({ 'order': cart })
     except Exception as e:
         print(e)
         return Response(json.dumps({ 'error': 'Error checking out cart with id {}'.format(cartId) }))
