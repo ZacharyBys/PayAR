@@ -114,7 +114,7 @@ def product(productId):
     except:
         return Response(json.dumps({ 'product': None, 'error': 'Error fetching product with id {}'.format(productId) }), mimetype='application/json')
 
-@app.route('/carts/<cartId>', methods=['GET', 'PUT'])
+@app.route('/carts/<cartId>', methods=['GET', 'PUT', 'DELETE'])
 def cart(cartId):
     conn = get_db()
     cursor = conn.cursor()
@@ -184,6 +184,15 @@ def cart(cartId):
         except Exception as e:
             print(e)
             return Response(json.dumps({ 'error': 'Error adding product with id {} to cart with id {}'.format(productId, cartId) }))
+    elif request.method == 'DELETE':
+        try:
+            productId = json.loads(request.data)['product_id']
+            row = cursor.execute('DELETE TOP(1) FROM cart_entries WHERE cart_id=? AND product_id=?', cartId, productId)
+            conn.commit()
+            return Response(json.dumps({}), mimetype='application/json')
+        except Exception as e:
+            print(e)
+            return Response(json.dumps({ 'error': 'Error deleting product with id {} from cart with id {}'.format(productId, cartId) }), mimetype='application/json')
 
 
 if __name__ == '__main__':
