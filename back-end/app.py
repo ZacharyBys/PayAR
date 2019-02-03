@@ -195,9 +195,9 @@ def insert_cart_entry(cartId, productId):
     conn = get_db()
     cursor = conn.cursor()
     try:
-        row = cursor.execute('INSERT INTO cart_entries (cart_id, product_id) VALUES (?, ?)', cartId, productId)
+        cursor.execute('INSERT INTO cart_entries (cart_id, product_id) VALUES (?, ?)', cartId, productId)
         conn.commit()
-        return {}
+        return 'Item added to cart'
     except Exception as e:
         print(e)
         return { 'error': 'Error adding product with id {} to cart with id {}'.format(productId, cartId) }
@@ -208,7 +208,7 @@ def delete_cart_entry(cartId, productId):
     try:
         row = cursor.execute('DELETE TOP(1) FROM cart_entries WHERE cart_id=? AND product_id=?', cartId, productId)
         conn.commit()
-        return {}
+        return 'Item removed from cart'
     except Exception as e:
         print(e)
         return { 'error': 'Error deleting product with id {} from cart with id {}'.format(productId, cartId) }
@@ -218,6 +218,9 @@ def checkout(cartId):
     conn = get_db()
     cursor = conn.cursor()
 
+    userId = json.loads(request.data)['user_id']
+    user = find_user(userId)
+    
     cart = find_cart(cartId)
     try:
         for item in cart['cart']['items']:
@@ -227,12 +230,16 @@ def checkout(cartId):
 
             if inventory_count < quantity:
                 raise Exception('Insufficient inventory')
-
+   
             cursor.execute('UPDATE products SET inventory_count = inventory_count - ? WHERE id=?', quantity, product_id)
 
         cursor.execute('DELETE FROM cart_entries WHERE cart_id=?', cartId)
-        conn.commit()
-        return json.dumps({ 'order': cart })
+        # conn.commit()
+
+        return Response(json.dumps({
+            'message': payment_handler.request_payment(user, str(cart['total']), "sms"),
+            'order': cart,
+        }))
     except Exception as e:
         print(e)
         return Response(json.dumps({ 'error': 'Error checking out cart with id {}'.format(cartId) }))
@@ -258,6 +265,33 @@ def users():
     except Exception as e:
         print(e)
         return Response(json.dumps({ 'users': None, 'error': 'Error fetching products' }), mimetype='application/json')
+
+def find_user(userId):
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        rows = cursor.execute('''
+            SELECT 
+                *
+            FROM
+                users
+            WHERE id=?
+        ''', 
+        userId).fetchall()
+
+        users = {
+            'users': [{ 
+                'id': row.id,
+                'name': row.name,
+                'phone': row.phone,
+                'code': row.code,
+                'email': row.email,
+            } for row in rows]
+        }
+
+        return users[0]
+    except Exception as e:
+        print(e)
 
 @app.route('/notifications', methods=['POST'])
 def notifications():

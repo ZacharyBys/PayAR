@@ -20,7 +20,7 @@ MonoBehaviour:
     maxSimultaneousImageTargets: 3
     maxSimultaneousObjectTargets: 3
     useDelayedLoadingObjectTargets: 1
-    cameraDirection: 0
+    cameraDirection: 1
     mirrorVideoBackground: 0
     version: 8.0.10
     eulaAcceptedVersions: '{"Values":["0.0","8.0"]}'

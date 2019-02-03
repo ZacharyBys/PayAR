@@ -708,10 +708,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: ef40e544-8865-4bfd-81d5-366ccd92c650
+  cloudProjectId: bcf49068-e0f3-440f-af84-91e6d778badd
   framebufferDepthMemorylessMode: 0
   projectName: Pay-R
-  organizationId: zacharybys
+  organizationId: christbian1
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
