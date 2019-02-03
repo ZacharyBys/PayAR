@@ -4,8 +4,9 @@ using UnityEngine;
 using System.Net;
 using TMPro;
 using System.IO;
+using Vuforia;
 
-public class Checkout : MonoBehaviour
+public class Checkout : VuforiaMonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -16,36 +17,34 @@ public class Checkout : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+       if (this.transform.parent.parent.parent.parent.GetComponent<TrackableBehaviour>().CurrentStatus == TrackableBehaviour.Status.DETECTED)
+        {
+            UpdateText();
+        }
     }
 
-    void UpdateText()
+    public void UpdateText()
     {
-        int id = this.transform.parent.GetComponent<cartId>().cId;
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/" + id);
+
+        //int id = this.transform.parent.parent.parent.parent.GetComponent<cartId>().cId;
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/5");
         request.Method = "GET";
 
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string jsonResponse = reader.ReadToEnd();
+
+        //jsonRes
         this.transform.GetComponent<TextMeshProUGUI>().text = jsonResponse;
 
     }
 
-    void CompleteCheckout() 
+    public void CompleteCheckout() 
     {
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/1/checkout");
+        //int id = this.transform.parent.parent.parent.parent.GetComponent<cartId>().cId;
+        int id = 5;
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/"+id+"/checkout");
         request.Method = "POST";
-        request.ContentType = "application/json";
-
-        using (var streamWriter = new StreamWriter(request.GetRequestStream()))
-        {
-            string json = "{\"user_id\":\"1\"}";
-
-            streamWriter.Write(json);
-            streamWriter.Flush();
-            streamWriter.Close();
-        }
 
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         StreamReader reader = new StreamReader(response.GetResponseStream());

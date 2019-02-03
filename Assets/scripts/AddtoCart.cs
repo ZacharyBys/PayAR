@@ -12,13 +12,13 @@ public class AddtoCart : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+
     }
 
    public void UpdateText()
     {
-        int id = this.transform.parent.GetComponent<productId>().pId;
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/"+id);
+        int id = this.transform.parent.parent.parent.GetComponent<productId>().pId;
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/5");
         request.Method = "PUT";
         request.ContentType = "application/json";
 
@@ -35,11 +35,12 @@ public class AddtoCart : MonoBehaviour
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string jsonResponse = reader.ReadToEnd();
+        jsonResponse.Replace("\"", "");
         this.transform.GetComponent<TextMeshProUGUI>().text = jsonResponse;
     }
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

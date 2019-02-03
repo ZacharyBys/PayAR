@@ -19,8 +19,8 @@ void Start()
     public void UpdateText()
 
     {
-        int id = this.transform.parent.GetComponent<productId>().pId;
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/"+id);
+        int id = this.transform.parent.parent.parent.GetComponent<productId>().pId;
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/5");
         request.Method = "DELETE";
         request.ContentType = "application/json";
 
@@ -37,6 +37,7 @@ void Start()
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string jsonResponse = reader.ReadToEnd();
+        jsonResponse.Replace("\"", "");
         this.transform.GetComponent<TextMeshProUGUI>().text = jsonResponse;
     }
     // Update is called once per frame
