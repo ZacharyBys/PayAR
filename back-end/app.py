@@ -69,5 +69,49 @@ def shops():
     except:
         return Response(json.dumps({ 'shops': None, 'error': 'Error fetching shops' }), mimetype='application/json')
 
+@app.route('/products', methods=['GET'])
+def products():
+    conn = get_db()
+    cursor = conn.cursor()
+
+    try:   
+        rows = cursor.execute('SELECT * FROM products').fetchall()
+        products = {
+            'products': [{ 
+                'id': row.id,
+                'name': row.name,
+                'price': float(row.price),
+                'inventory_count': row.inventory_count,
+                'description': row.description,
+            } for row in rows]
+        }
+        
+        return Response(json.dumps(products), mimetype='application/json')
+    except Exception as e:
+        print(e)
+        return Response(json.dumps({ 'products': None, 'error': 'Error fetching products' }), mimetype='application/json')
+
+
+@app.route('/products/<productId>', methods=['GET'])
+def product(productId):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    try:   
+        row = cursor.execute('SELECT * FROM products WHERE id=?', productId).fetchone()
+        product = {
+            'product': { 
+                'id': row.id,
+                'name': row.name,
+                'price': float(row.price),
+                'inventory_count': row.inventory_count,
+                'description': row.description,
+            }
+        }
+        
+        return Response(json.dumps(product), mimetype='application/json')
+    except:
+        return Response(json.dumps({ 'product': None, 'error': 'Error fetching product with id {}'.format(productId) }), mimetype='application/json')
+
 if __name__ == '__main__':
     app.run(debug=True)
