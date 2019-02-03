@@ -323,11 +323,12 @@ def find_user(userId):
 @app.route('/notifications', methods=['POST'])
 def notifications():
         state = json.loads(request.data)['moneyRequestUpdates'][0]["state"]
+        app.logger.info(request.data)
         if state == "REQUEST_FULFILLED":
-                print('success')
+                app.logger.info('success')
                 #TODO: GIVE THIS TO CLIENT SOMEHOW
         else:
-                print('fail')
+                app.logger.info('fail')
                 #TODO: GIVE TO CLIENT THIS FAILURE
 
 if __name__ == '__main__':
