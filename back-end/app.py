@@ -1,10 +1,10 @@
 from flask import Flask
 from flask import g
+from flask import Response
 import pyodbc
 import json
 
 app = Flask(__name__)
-app.run(debug=True)
 
 server = 'pay-r.database.windows.net'
 database = 'pay-r'
@@ -30,10 +30,44 @@ def get_db_connection():
 def hello_world():
     return 'Weclome to Pay-R'
 
-@app.route('/shops')
+@app.route('/shops/<shopId>', methods=['GET'])
+def shop(shopId):
+    conn = get_db()
+    cursor = conn.cursor() 
+
+    try:
+        row = cursor.execute('SELECT * FROM shops WHERE ID=?', shopId).fetchone()   
+        shop = { 
+            'shop': {
+                'id': row.id,
+                'name': row.name,
+                'email': row.email,
+                'phone': row.phone,
+            },
+        }
+        return Response(json.dumps(shop), mimetype='application/json')
+    except:
+        return Response(json.dumps({ 'shop': None, 'error': 'No shop with id {}'.format(shopId)}), mimetype='application/json')
+
+@app.route('/shops', methods=['GET'])
 def shops():
     conn = get_db()
     cursor = conn.cursor()
-    rows = cursor.execute('SELECT * FROM shops').fetchall()
-    shops = [{ 'id': row.id, 'name': row.name, 'email': row.email, 'phone': row.phone} for row in rows]
-    return json.dumps(shops)
+
+    try:   
+        rows = cursor.execute('SELECT * FROM shops').fetchall()
+        shops = {
+            'shops': [{ 
+                'id': row.id,
+                'name': row.name,
+                'email': row.email,
+                'phone': row.phone,
+            } for row in rows]
+        }
+        
+        return Response(json.dumps(shops), mimetype='application/json')
+    except:
+        return Response(json.dumps({ 'shops': None, 'error': 'Error fetching shops' }), mimetype='application/json')
+
+if __name__ == '__main__':
+    app.run(debug=True)
