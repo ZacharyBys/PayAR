@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import g
 from flask import Response
+from flask import request
 import pyodbc
 import json
 
@@ -112,6 +113,78 @@ def product(productId):
         return Response(json.dumps(product), mimetype='application/json')
     except:
         return Response(json.dumps({ 'product': None, 'error': 'Error fetching product with id {}'.format(productId) }), mimetype='application/json')
+
+@app.route('/carts/<cartId>', methods=['GET', 'PUT'])
+def cart(cartId):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    if request.method == 'GET':
+        try:
+            rows = cursor.execute('''
+                SELECT 
+                    cart_id, product_id, name, description, price, inventory_count
+                FROM
+                    cart_entries 
+                JOIN 
+                    products
+                ON 
+                    cart_entries.product_id = products.id 
+                WHERE cart_id=?
+            ''', 
+            cartId).fetchall()
+
+            products = [{ 
+                'id': row.product_id,
+                'name': row.name,
+                'price': float(row.price),
+                'inventory_count': row.inventory_count,
+                'description': row.description,
+            } for row in rows]
+
+            quantities = {}
+            for product in products:
+                productId = product['id']
+                count = quantities.get(productId)
+                if count is not None:
+                    quantities[productId] = count + 1
+                else:
+                    quantities[productId] = 1
+
+            items = []
+            for product in products:
+                productId = product['id']
+                if productId in quantities.keys():
+                    items.append({ 
+                        'product': product,
+                        'quantity': quantities[productId],
+                    })
+
+                    quantities.pop(productId)
+
+            total = 0
+            for item in items:
+                total += item['product']['price'] * item['quantity']
+
+            return Response(json.dumps({ 
+                'cart': {
+                    'items': items,
+                    'total': total,
+                } 
+            }), mimetype='application/json')
+        except Exception as e:
+            print(e)
+            return Response(json.dumps({ 'cart': None, 'error': 'Error fetching cart with id {}'.format(cartId)}))
+    elif request.method == 'PUT':
+        try:
+            productId = json.loads(request.data)['product_id']
+            row = cursor.execute('INSERT INTO cart_entries (cart_id, product_id) VALUES (?, ?)', cartId, productId)
+            conn.commit()
+            return Response(json.dumps({}), mimetype='application/json')
+        except Exception as e:
+            print(e)
+            return Response(json.dumps({ 'error': 'Error adding product with id {} to cart with id {}'.format(productId, cartId) }))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
