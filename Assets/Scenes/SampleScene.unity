@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -951,16 +951,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.00034482757
       objectReference: {fileID: 0}
-    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 173372565848042249, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_havePropertiesChanged
@@ -1106,6 +1096,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 77383541197021820, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
@@ -1571,6 +1571,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.0637612
+      objectReference: {fileID: 0}
+    - target: {fileID: 2460334590463179194, guid: 6d92a0df946894d4997e4f285d33d24a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.07
       objectReference: {fileID: 0}
     - target: {fileID: 2460334590937314190, guid: 6d92a0df946894d4997e4f285d33d24a,
         type: 3}
@@ -2432,7 +2437,7 @@ MonoBehaviour:
   mDataSetPath: Vuforia/PayR-device.xml
   mAspectRatio: 1.4044863
   mImageTargetType: 0
-  mWidth: 12.5
+  mWidth: 11.166731
   mHeight: 15.68352
 --- !u!4 &1776997599
 Transform:
@@ -2594,16 +2599,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.005
       objectReference: {fileID: 0}
-    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 173372565848042249, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_havePropertiesChanged
@@ -2746,6 +2741,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 77383541197021820, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
@@ -3174,16 +3179,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 173372565848042249, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_havePropertiesChanged
@@ -3260,6 +3255,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 77383541197021820, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5988474001308392034, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
