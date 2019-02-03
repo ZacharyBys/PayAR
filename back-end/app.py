@@ -221,8 +221,10 @@ def users():
 def notifications():
         state = json.loads(request.data)['moneyRequestUpdates'][0]["state"]
         if state == "REQUEST_FULFILLED":
+                print('success')
                 #TODO: GIVE THIS TO CLIENT SOMEHOW
         else:
+                print('fail')
                 #TODO: GIVE TO CLIENT THIS FAILURE
 
 if __name__ == '__main__':
