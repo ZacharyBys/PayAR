@@ -22,9 +22,10 @@ public class AddtoCart : MonoBehaviour
         request.Method = "PUT";
         request.ContentType = "application/json";
 
+        int id = this.transform.parent.GetComponent<ImageBehaviour>().productId;
         using (var streamWriter = new StreamWriter(request.GetRequestStream()))
         {
-            string json = "{\"product_id\":\"1\"}";
+            string json = "{\"product_id\":\""+id+"\"}";
 
             streamWriter.Write(json);
             streamWriter.Flush();
