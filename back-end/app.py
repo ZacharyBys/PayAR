@@ -324,10 +324,10 @@ def find_user(userId):
 def notifications():
         state = json.loads(request.data)['moneyRequestUpdates'][0]["state"]
         if state == "REQUEST_FULFILLED":
-                print('success')
+                app.logger.info('success')
                 #TODO: GIVE THIS TO CLIENT SOMEHOW
         else:
-                print('fail')
+                app.logger.info('fail')
                 #TODO: GIVE TO CLIENT THIS FAILURE
 
 if __name__ == '__main__':
