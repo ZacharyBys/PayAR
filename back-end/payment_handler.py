@@ -11,7 +11,7 @@ def request_payment(user,amount,paymentType):
     device_id = str(uuid.uuid4().hex)
     request_id = str(uuid.uuid4().hex)
     source_money_request_id = str(uuid.uuid4().hex)
-    handle = user.email if paymentType == "email" else user["phoneNumber"]
+    handle = user["email"] if paymentType == "email" else user["phone"]
 
     headers = {"thirdPartyAccessId":ACCESS_ID,"accessToken":ACCESS_TOKEN,"apiRegistrationId":API_REGISTRATION_ID,"requestId":request_id,"deviceId":device_id,"Accept":"application/json","Content-Type":"application/json"}
 

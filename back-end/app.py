@@ -194,6 +194,27 @@ def cart(cartId):
             print(e)
             return Response(json.dumps({ 'error': 'Error deleting product with id {} from cart with id {}'.format(productId, cartId) }), mimetype='application/json')
 
+@app.route('/users', methods=['GET'])
+def users():
+    conn = get_db()
+    cursor = conn.cursor()
+
+    try:   
+        rows = cursor.execute('SELECT * FROM users').fetchall()
+        users = {
+            'users': [{ 
+                'id': row.id,
+                'name': row.name,
+                'phone': row.phone,
+                'code': row.code,
+                'email': row.email,
+            } for row in rows]
+        }
+        
+        return Response(json.dumps(users), mimetype='application/json')
+    except Exception as e:
+        print(e)
+        return Response(json.dumps({ 'users': None, 'error': 'Error fetching products' }), mimetype='application/json')
 
 if __name__ == '__main__':
     app.run(debug=True)
