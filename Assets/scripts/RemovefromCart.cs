@@ -9,10 +9,9 @@ using UnityEngine.UI;
 
 public class RemovefromCart : MonoBehaviour
 {
-    public TextMeshProUGUI infoText;
 
-    // Start is called before the first frame update
-    void Start()
+// Start is called before the first frame update
+void Start()
     { 
 
     }
@@ -20,11 +19,12 @@ public class RemovefromCart : MonoBehaviour
     public void UpdateText()
 
     {
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/1");
+        int id = this.transform.parent.GetComponent<productId>().pId;
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/"+id);
         request.Method = "DELETE";
         request.ContentType = "application/json";
 
-        int id = this.transform.parent.GetComponent<ImageBehaviour>().productId;
+
         using (var streamWriter = new StreamWriter(request.GetRequestStream()))
         {
             string json = "{\"product_id\":\"" + id + "\"}";
@@ -37,7 +37,7 @@ public class RemovefromCart : MonoBehaviour
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string jsonResponse = reader.ReadToEnd();
-        infoText.text = jsonResponse;
+        this.transform.GetComponent<TextMeshProUGUI>().text = jsonResponse;
     }
     // Update is called once per frame
     void Update()

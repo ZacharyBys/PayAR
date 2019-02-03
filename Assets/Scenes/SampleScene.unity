@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 33894526}
   - component: {fileID: 33894525}
   - component: {fileID: 33894524}
+  - component: {fileID: 33894530}
   m_Layer: 0
   m_Name: ImageTarget
   m_TagString: Untagged
@@ -237,6 +238,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &33894530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33894523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c41dbcc102994f2b8fa8d08a7557aa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pId: 0
 --- !u!43 &99419267
 Mesh:
   m_ObjectHideFlags: 0
@@ -490,7 +504,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: deacb328d1a343068b83fba9247aaa33, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8a59eadc082341399d1853cf08978238, type: 3}
         m_Scale: {x: -1, y: -1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
@@ -680,7 +694,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 8eaaf992d9bd42d1aec1186524b66932, type: 3}
+        m_Texture: {fileID: 2800000, guid: bf3bd1882e02440a95df9067963c5521, type: 3}
         m_Scale: {x: -1, y: -1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
@@ -708,7 +722,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: deacb328d1a343068b83fba9247aaa33, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8a59eadc082341399d1853cf08978238, type: 3}
         m_Scale: {x: -1, y: -1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
@@ -1120,7 +1134,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 0c7ef1bc107541cda4b7d55b22a541a4, type: 3}
+        m_Texture: {fileID: 2800000, guid: c19492d46f944e85ae9c4bbd3639801b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
@@ -1148,7 +1162,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 8eaaf992d9bd42d1aec1186524b66932, type: 3}
+        m_Texture: {fileID: 2800000, guid: bf3bd1882e02440a95df9067963c5521, type: 3}
         m_Scale: {x: -1, y: -1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
@@ -1176,7 +1190,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 13ec706cf71047d0a60fe509688936e3, type: 3}
+        m_Texture: {fileID: 2800000, guid: fe0c591f63884f9dace0c7b61f97ea1e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
@@ -1204,7 +1218,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4ba22fa177734cf687316078ce26f3cc, type: 3}
+        m_Texture: {fileID: 2800000, guid: a3bdfa86ced645a3ae0c0cb205798a42, type: 3}
         m_Scale: {x: -1, y: -1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
@@ -1614,7 +1628,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4ba22fa177734cf687316078ce26f3cc, type: 3}
+        m_Texture: {fileID: 2800000, guid: a3bdfa86ced645a3ae0c0cb205798a42, type: 3}
         m_Scale: {x: -1, y: -1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
@@ -1642,7 +1656,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 7e284bb9619f465dbe78e3549094fcef, type: 3}
+        m_Texture: {fileID: 2800000, guid: 255e772d7e0c42eca71c840dcbf6613b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
@@ -1662,6 +1676,7 @@ GameObject:
   - component: {fileID: 1258255300}
   - component: {fileID: 1258255299}
   - component: {fileID: 1258255298}
+  - component: {fileID: 1258255304}
   m_Layer: 0
   m_Name: CylinderTarget
   m_TagString: Untagged
@@ -1780,6 +1795,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1258255304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258255297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c41dbcc102994f2b8fa8d08a7557aa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pId: 0
 --- !u!21 &1324795856
 Material:
   serializedVersion: 6
@@ -1802,7 +1830,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 9b07ecb8f8514ce2a1a7141f481ee2dc, type: 3}
+        m_Texture: {fileID: 2800000, guid: 022bc77d39e045d4bdf7604b0e8a8984, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
@@ -1894,6 +1922,7 @@ GameObject:
   - component: {fileID: 1557965042}
   - component: {fileID: 1557965041}
   - component: {fileID: 1557965040}
+  - component: {fileID: 1557965046}
   m_Layer: 0
   m_Name: ImageTarget
   m_TagString: Untagged
@@ -2005,6 +2034,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1557965046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557965039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c41dbcc102994f2b8fa8d08a7557aa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pId: 0
 --- !u!43 &1614979175
 Mesh:
   m_ObjectHideFlags: 0
@@ -2023,7 +2065,7 @@ Mesh:
     vertexCount: 4
     localAABB:
       m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0.39850748, y: 0, z: 0.5}
+      m_Extent: {x: 0.35600206, y: 0, z: 0.5}
   m_Shapes:
     vertices: []
     shapes: []
@@ -2099,7 +2141,7 @@ Mesh:
       format: 0
       dimension: 0
     m_DataSize: 128
-    _typelessdata: 2c09ccbe00000000000000bf000000000000803f0000000000000000000000002c09ccbe000000000000003f000000000000803f00000000000000000000803f2c09cc3e00000000000000bf000000000000803f000000000000803f000000002c09cc3e000000000000003f000000000000803f000000000000803f0000803f
+    _typelessdata: e745b6be00000000000000bf000000000000803f000000000000000000000000e745b6be000000000000003f000000000000803f00000000000000000000803fe745b63e00000000000000bf000000000000803f000000000000803f00000000e745b63e000000000000003f000000000000803f000000000000803f0000803f
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -2388,7 +2430,7 @@ MonoBehaviour:
   mPreserveChildSize: 0
   mInitializedInEditor: 1
   mDataSetPath: Vuforia/PayR-device.xml
-  mAspectRatio: 1.2546816
+  mAspectRatio: 1.4044863
   mImageTargetType: 0
   mWidth: 12.5
   mHeight: 15.68352
@@ -2416,9 +2458,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1776997593}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c41dbcc102994f2b8fa8d08a7557aa1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4aafc9d12579e4198b656706bb88e0ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cId: 1
 --- !u!1001 &1843841725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2723,6 +2766,7 @@ GameObject:
   - component: {fileID: 2020859582}
   - component: {fileID: 2020859581}
   - component: {fileID: 2020859580}
+  - component: {fileID: 2020859586}
   m_Layer: 0
   m_Name: ImageTarget
   m_TagString: Untagged
@@ -2834,6 +2878,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2020859586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020859579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c41dbcc102994f2b8fa8d08a7557aa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pId: 0
 --- !u!43 &2113208420
 Mesh:
   m_ObjectHideFlags: 0

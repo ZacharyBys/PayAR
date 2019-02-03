@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ImageBehaviour : MonoBehaviour
 {
-
-    public int productId; 
     // Start is called before the first frame update
     void Start()
     {
