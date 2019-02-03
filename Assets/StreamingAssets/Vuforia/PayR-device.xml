@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
-    <ImageTarget name="McHacks_Badge" size="12.500000 15.683520" />
+    <ImageTarget name="McHacks_Badge" size="12.600000 17.696527" />
     <ImageTarget name="mlh_sticker" size="14.500000 7.236883" />
     <ImageTarget name="mints" size="8.900000 6.975566" />
     <ImageTarget name="excel-gum" size="14.200000 9.010047" />
