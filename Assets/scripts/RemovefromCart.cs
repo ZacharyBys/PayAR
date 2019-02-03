@@ -20,7 +20,19 @@ public class RemovefromCart : MonoBehaviour
     public void UpdateText()
 
     {
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://178.128.229.75:5000/");
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://178.128.229.75:5000/carts/1");
+        request.Method = "DELETE";
+        request.ContentType = "application/json";
+
+        using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+        {
+            string json = "{\"product_id\":\"1\"}";
+
+            streamWriter.Write(json);
+            streamWriter.Flush();
+            streamWriter.Close();
+        }
+
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string jsonResponse = reader.ReadToEnd();
