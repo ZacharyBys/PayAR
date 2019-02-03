@@ -17,7 +17,7 @@ def request_payment(user,amount,paymentType):
 
     notification_preferences = { "handle": handle, "handleType": paymentType,"active":"true"}
     requested_from = { "contactName":user["name"],"language":"en", "notificationPreferences": [notification_preferences]}
-    body = { "sourceMoneyRequestId": source_money_request_id, "requestedFrom":requested_from, "amount":amount,"currency":"CAD","editableFulfillAmount": "false","supressResponderNotifications":"false", "expiryDate": "2019-02-30T16:12:12.721Z"}
+    body = { "sourceMoneyRequestId": source_money_request_id, "requestedFrom":requested_from, "amount":amount,"currency":"CAD","editableFulfillAmount": "false","supressResponderNotifications":"false", "requesterMessage":source_money_request_id,"expiryDate": "2019-02-30T16:12:12.721Z"}
 
     r = requests.post(SEND_PAYMENT_URL,headers=headers,data=json.dumps(body))
     return (source_money_request_id, "Payment Requested.")
