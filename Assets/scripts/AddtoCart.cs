@@ -18,7 +18,7 @@ public class AddtoCart : MonoBehaviour
 
    public void UpdateText()
     {
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://178.128.229.75:5000/carts/1");
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/1");
         request.Method = "PUT";
         request.ContentType = "application/json";
 
