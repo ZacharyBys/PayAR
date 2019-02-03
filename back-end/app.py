@@ -2,7 +2,7 @@ from flask import Flask
 from flask import g
 from flask import Response
 from flask import request
-from invoice import make_twilio_client
+from invoice import make_twilio_client, send_invoice, send_invoice_merchant, send_cancel_invoice
 
 import pyodbc
 import json
@@ -19,6 +19,7 @@ driver= '{SQL Server}'
 def get_twilio_client():
     if not hasattr(g, 'twilio'):
         g.twilio = make_twilio_client()
+    return g.twilio
 
 def get_db():
     if not hasattr(g, 'conn'):
@@ -183,6 +184,7 @@ def find_cart(cartId):
 
         return { 
             'cart': {
+                'id': cartId,
                 'items': items,
                 'total': total,
             } 
@@ -223,21 +225,11 @@ def checkout(cartId):
     
     cart = find_cart(cartId)
     try:
-        for item in cart['cart']['items']:
-            product_id = item['product']['id']
-            inventory_count = item['product']['inventory_count']
-            quantity = item['quantity']
+        source_money_req_id, message = payment_handler.request_payment(user, str(cart['total']), "sms")
 
-            if inventory_count < quantity:
-                raise Exception('Insufficient inventory')
-   
-            cursor.execute('UPDATE products SET inventory_count = inventory_count - ? WHERE id=?', quantity, product_id)
-
-        cursor.execute('DELETE FROM cart_entries WHERE cart_id=?', cartId)
-        # conn.commit()
-
+        cursor.execute('INSERT into PendingPayments (req_id, cart_id) values (?, ?)', source_money_req_id, cartId)
         return Response(json.dumps({
-            'message': payment_handler.request_payment(user, str(cart['total']), "sms"),
+            'message': message,
             'order': cart,
         }))
     except Exception as e:
@@ -270,38 +262,80 @@ def find_user(userId):
     conn = get_db()
     cursor = conn.cursor()
     try:
-        rows = cursor.execute('''
+        row = cursor.execute('''
             SELECT 
                 *
             FROM
                 users
             WHERE id=?
         ''', 
-        userId).fetchall()
+        userId).fetchone()
 
-        users = {
-            'users': [{ 
-                'id': row.id,
-                'name': row.name,
-                'phone': row.phone,
-                'code': row.code,
-                'email': row.email,
-            } for row in rows]
+        user = { 
+            'id': row.id,
+            'name': row.name,
+            'phone': row.phone,
+            'code': row.code,
+            'email': row.email,
         }
 
-        return users[0]
+        app.logger.info(user)
+        return user
     except Exception as e:
         print(e)
 
 @app.route('/notifications', methods=['POST'])
 def notifications():
-        state = json.loads(request.data)['moneyRequestUpdates'][0]["state"]
-        if state == "REQUEST_FULFILLED":
-                app.logger.info('success')
-                #TODO: GIVE THIS TO CLIENT SOMEHOW
-        else:
-                app.logger.info('fail')
-                #TODO: GIVE TO CLIENT THIS FAILURE
+    twilio = get_twilio_client()
+
+    state = json.loads(request.data)['moneyRequestUpdates'][0]["state"]
+    source_money_req_id = json.loads(request.data)['moneyRequestUpdates'][0]["moneyRequestDetails"]['requesterMessage'] # to change back
+    app.logger.info(source_money_req_id)
+
+    conn = get_db()
+    cursor = conn.cursor()
+
+    user = None
+    cart = None
+    try:
+        row = cursor.execute('SELECT * FROM PendingPayments WHERE req_id=?', source_money_req_id).fetchone()
+        app.logger.info('row')
+        app.logger.info(row)
+        cartId = row.cart_id
+        app.logger.info(cartId)
+        cart = find_cart(cartId)
+        user = find_user(cartId)
+    except Exception as e:
+        app.logger.error(e)
+        
+    if state == "REQUEST_COMPLETED":
+        app.logger.info('payment was accepted')
+        for item in cart['cart']['items']:
+            product_id = item['product']['id']
+            inventory_count = item['product']['inventory_count']
+            quantity = item['quantity']
+
+            if inventory_count < quantity:
+                raise Exception('Insufficient inventory')
+
+            cursor.execute('UPDATE products SET inventory_count = inventory_count - ? WHERE id=?', quantity, product_id)
+
+            send_invoice(user, cart, twilio)
+            app.logger.info('Sent invoice to {}'.format(user['phone']))
+            send_invoice_merchant({ 'name': 'Chris\' Antiques', 'phone': '+15142125431' }, cart, twilio)
+            app.logger.info('Sent invoice to {}'.format('+15142125431'))
+
+    else:
+        app.logger.info('payment failed or abort')
+        send_cancel_invoice(user, cart, twilio)
+        app.logger.info('Sent cancel invoice to {}'.format(user['phone']))
+            
+
+    cursor.execute('DELETE FROM cart_entries WHERE cart_id=?', cartId)
+    cursor.execute('DELETE FROM PendingPayments WHERE cart_id=? and req_id=?', cartId, source_money_req_id)
+    conn.commit()
+
+    return Response(json.dumps({ 'message': 'Notification successfully sent' }))
 
 if __name__ == '__main__':
     app.run(debug=True)

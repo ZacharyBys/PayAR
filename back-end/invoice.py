@@ -9,22 +9,22 @@ def make_twilio_client():
 
 def get_order_summary(order):
     summary = ''
-    for item in order:
+    for item in order['items']:
         item_name = item['product']['name']
         item_quantity = item['quantity']
         item_price = item['product']['price']
-        summary += '{} x {}:\t{}\n'.format(item_name, item_quantity, item_price * item_quantity)
+        summary += '{} x {}:\t${}\n'.format(item_name, item_quantity, item_price * item_quantity)
     
-    summary += '-------'
-    summary += order['total']
+    summary += '\t--------------------------\n'
+    summary += 'Total:\t${}\n'.format(str(order['total']))
 
     return summary
 
-def send_invoice(to_user, order, twilio):
+def send_invoice(to_user, cart, twilio):
     name = to_user['name']
-    to_number = to_user['to_number']
-    shop = order['shop']
-    formattedOrderSummary = get_order_summary(order)
+    to_number = to_user['phone']
+    shop = 'Chris\' Antiques'
+    formattedOrderSummary = get_order_summary(cart['cart'])
 
     invoice = '''
         Hi {},
@@ -38,9 +38,11 @@ def send_invoice(to_user, order, twilio):
 
     twilio.messages.create(body=invoice, from_=twilio_number, to=to_number)
 
-def send_invoice_merchant(to_merchant, order, twilio):
+
+def send_invoice_merchant(to_merchant, cart, twilio):
     shop_name = to_merchant['name']
-    formattedOrderSummary = get_order_summary(order)
+    number = to_merchant['phone']
+    formattedOrderSummary = get_order_summary(cart['cart'])
     invoice = '''
         {},
 
@@ -51,4 +53,18 @@ def send_invoice_merchant(to_merchant, order, twilio):
         {}
     '''.format(shop_name, formattedOrderSummary)
 
+    twilio.messages.create(body=invoice, from_=twilio_number, to=number)
 
+def send_cancel_invoice(to_user, cart, twilio):
+    shop_name = to_user['name']
+    number = to_user['phone']
+    formattedOrderSummary = get_order_summary(cart['cart'])
+    invoice = '''
+        {},
+
+        The following order was canceled:
+
+        {}
+    '''.format(shop_name, formattedOrderSummary)
+
+    twilio.messages.create(body=invoice, from_=twilio_number, to=number)
