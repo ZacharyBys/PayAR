@@ -243,7 +243,7 @@ def checkout(cartId):
     for item in cart['items']:
         product_id = item['product']['id']
         quantity = item['quantity']
-        cost += item['product']['price']
+        cost += int(quantity)*float(item['product']['price'])
 
         values.append(product_id, quantity)
         query += '''
@@ -266,7 +266,7 @@ def checkout(cartId):
 
     try:
         cursor.execute(query)
-        return Response(json.dumps({'message':payment_handler.request_payment(user,cost,"sms")}))
+        return Response(json.dumps({'message':payment_handler.request_payment(user,str(cost),"sms")}))
     except Exception as e:
         print(e)
         return Response(json.dumps({ 'error': 'Error checking out cart with id {}'.format(cartId) }))
