@@ -2,6 +2,8 @@ from flask import Flask
 from flask import g
 from flask import Response
 from flask import request
+from invoice import make_twilio_client
+
 import pyodbc
 import json
 
@@ -12,6 +14,10 @@ database = 'pay-r'
 username = 'pay-r'
 password = 'Party123'
 driver= '{SQL Server}'
+
+def get_twilio_client():
+    if not hasattr(g, 'twilio'):
+        g.twilio = make_twilio_client()
 
 def get_db():
     if not hasattr(g, 'conn'):
@@ -116,84 +122,150 @@ def product(productId):
 
 @app.route('/carts/<cartId>', methods=['GET', 'PUT', 'DELETE'])
 def cart(cartId):
+    if request.method == 'GET':
+        return find_cart(cartId)
+    else:
+        productId = json.loads(request.data)['product_id']
+        if request.method == 'PUT':
+            return insert_cart_entry(cartId, productId)
+        elif request.method == 'DELETE':
+            return delete_cart_entry(cartId, productId)
+
+def find_cart(cartId):
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        rows = cursor.execute('''
+            SELECT 
+                cart_id, product_id, name, description, price
+            FROM
+                cart_entries 
+            JOIN 
+                products
+            ON 
+                cart_entries.product_id = products.id 
+            WHERE cart_id=?
+        ''', 
+        cartId).fetchall()
+
+        products = [{ 
+            'id': row.product_id,
+            'name': row.name,
+            'price': float(row.price),
+            'description': row.description,
+        } for row in rows]
+
+        quantities = {}
+        for product in products:
+            productId = product['id']
+            count = quantities.get(productId)
+            if count is not None:
+                quantities[productId] = count + 1
+            else:
+                quantities[productId] = 1
+
+        items = []
+        for product in products:
+            productId = product['id']
+            if productId in quantities.keys():
+                items.append({ 
+                    'product': product,
+                    'quantity': quantities[productId],
+                })
+
+                quantities.pop(productId)
+
+        total = 0
+        for item in items:
+            total += item['product']['price'] * item['quantity']
+
+        return Response(json.dumps({ 
+            'cart': {
+                'items': items,
+                'total': total,
+            } 
+        }), mimetype='application/json')
+    except Exception as e:
+        print(e)
+        return Response(json.dumps({ 'cart': None, 'error': 'Error fetching cart with id {}'.format(cartId)}))
+
+def insert_cart_entry(cartId, productId):
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        row = cursor.execute('INSERT INTO cart_entries (cart_id, product_id) VALUES (?, ?)', cartId, productId)
+        conn.commit()
+        return Response(json.dumps({}), mimetype='application/json')
+    except Exception as e:
+        print(e)
+        return Response(json.dumps({ 'error': 'Error adding product with id {} to cart with id {}'.format(productId, cartId) }))
+
+def delete_cart_entry(cartId, productId):
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        row = cursor.execute('DELETE TOP(1) FROM cart_entries WHERE cart_id=? AND product_id=?', cartId, productId)
+        conn.commit()
+        return Response(json.dumps({}), mimetype='application/json')
+    except Exception as e:
+        print(e)
+        return Response(json.dumps({ 'error': 'Error deleting product with id {} from cart with id {}'.format(productId, cartId) }), mimetype='application/json')
+
+@app.route('/carts/<cartId>/checkout', methods=['POST'])
+def checkout(cartId):
+    dropProcedure = 'DROP PROCEDURE IF EXISTS checkout'
+    createProcedure = '''
+     CREATE PROCEDURE checkout (IN product_id INT, IN quantity INT)
+        BEGIN 
+            DECLARE available INT;
+            SET available = (SELECT inventory_count FROM products WHERE ID = product_id);
+            IF 
+                available < quantity 
+            THEN
+                SIGNAL SQLSTATE '45000';
+            END IF;
+
+            UPDATE 
+                products
+            SET
+                inventory_count = inventory_count - quantity
+            WHERE
+                ID = product_id;
+        END
+    '''
+
+    cart = find_cart(cartId)
+
+    query = ''
+    values = []
+    for item in cart['items']:
+        product_id = item['product']['id']
+        quantity = item['quantity']
+
+        values.append(product_id, quantity)
+        query += '''
+            SET @PRODUCT_ID := ?
+            SET @QUANTITY := ?
+
+            CALL checkout(@PRODUCT_ID, @QUANTITY)
+        '''
+
+    values.append(cartId)
+    query += '''
+        DELETE FROM cart_entries WHERE cart_id=?
+    '''
+
     conn = get_db()
     cursor = conn.cursor()
 
-    if request.method == 'GET':
-        try:
-            rows = cursor.execute('''
-                SELECT 
-                    cart_id, product_id, name, description, price, inventory_count
-                FROM
-                    cart_entries 
-                JOIN 
-                    products
-                ON 
-                    cart_entries.product_id = products.id 
-                WHERE cart_id=?
-            ''', 
-            cartId).fetchall()
+    cursor.execute(dropProcedure)
+    cursor.execute(createProcedure)
 
-            products = [{ 
-                'id': row.product_id,
-                'name': row.name,
-                'price': float(row.price),
-                'inventory_count': row.inventory_count,
-                'description': row.description,
-            } for row in rows]
-
-            quantities = {}
-            for product in products:
-                productId = product['id']
-                count = quantities.get(productId)
-                if count is not None:
-                    quantities[productId] = count + 1
-                else:
-                    quantities[productId] = 1
-
-            items = []
-            for product in products:
-                productId = product['id']
-                if productId in quantities.keys():
-                    items.append({ 
-                        'product': product,
-                        'quantity': quantities[productId],
-                    })
-
-                    quantities.pop(productId)
-
-            total = 0
-            for item in items:
-                total += item['product']['price'] * item['quantity']
-
-            return Response(json.dumps({ 
-                'cart': {
-                    'items': items,
-                    'total': total,
-                } 
-            }), mimetype='application/json')
-        except Exception as e:
-            print(e)
-            return Response(json.dumps({ 'cart': None, 'error': 'Error fetching cart with id {}'.format(cartId)}))
-    elif request.method == 'PUT':
-        try:
-            productId = json.loads(request.data)['product_id']
-            row = cursor.execute('INSERT INTO cart_entries (cart_id, product_id) VALUES (?, ?)', cartId, productId)
-            conn.commit()
-            return Response(json.dumps({}), mimetype='application/json')
-        except Exception as e:
-            print(e)
-            return Response(json.dumps({ 'error': 'Error adding product with id {} to cart with id {}'.format(productId, cartId) }))
-    elif request.method == 'DELETE':
-        try:
-            productId = json.loads(request.data)['product_id']
-            row = cursor.execute('DELETE TOP(1) FROM cart_entries WHERE cart_id=? AND product_id=?', cartId, productId)
-            conn.commit()
-            return Response(json.dumps({}), mimetype='application/json')
-        except Exception as e:
-            print(e)
-            return Response(json.dumps({ 'error': 'Error deleting product with id {} from cart with id {}'.format(productId, cartId) }), mimetype='application/json')
-
+    try:
+        cursor.execute(query)
+    except Exception as e:
+        print(e)
+        return Response(json.dumps({ 'error': 'Error checking out cart with id {}'.format(cartId) }))
 
 if __name__ == '__main__':
     app.run(debug=True)
