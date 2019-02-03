@@ -199,6 +199,7 @@ def insert_cart_entry(cartId, productId):
     try:
         cursor.execute('INSERT INTO cart_entries (cart_id, product_id) VALUES (?, ?)', cartId, productId)
         conn.commit()
+        app.logger.info('Added item with id {} to cart with id {}'.format(productId, cartId))
         return 'Item added to cart'
     except Exception as e:
         print(e)
@@ -210,6 +211,7 @@ def delete_cart_entry(cartId, productId):
     try:
         row = cursor.execute('DELETE TOP(1) FROM cart_entries WHERE cart_id=? AND product_id=?', cartId, productId)
         conn.commit()
+        app.logger.info('Removed item with id {} to cart with id {}'.format(productId, cartId))
         return 'Item removed from cart'
     except Exception as e:
         print(e)
@@ -220,20 +222,23 @@ def checkout(cartId):
     conn = get_db()
     cursor = conn.cursor()
 
-    userId = json.loads(request.data)['user_id']
-    user = find_user(userId)
-    
+    user = find_user(cartId)
     cart = find_cart(cartId)
-    try:
-        source_money_req_id, message = payment_handler.request_payment(user, str(cart['total']), "sms")
 
+    if len(cart['cart']['items']) == 0:
+        return Response(json.dumps({ 'error': 'Cannot checkout an empty cart' }))
+
+    try:
+        source_money_req_id, message = payment_handler.request_payment(user, str(cart['cart']['total']), "sms")
         cursor.execute('INSERT into PendingPayments (req_id, cart_id) values (?, ?)', source_money_req_id, cartId)
+        conn.commit()
+        app.logger.info('Order for cart with id {} is now pending'.format(cartId))
         return Response(json.dumps({
             'message': message,
             'order': cart,
         }))
     except Exception as e:
-        print(e)
+        app.logger.error(e)
         return Response(json.dumps({ 'error': 'Error checking out cart with id {}'.format(cartId) }))
 
 @app.route('/users', methods=['GET'])
@@ -299,8 +304,6 @@ def notifications():
     cart = None
     try:
         row = cursor.execute('SELECT * FROM PendingPayments WHERE req_id=?', source_money_req_id).fetchone()
-        app.logger.info('row')
-        app.logger.info(row)
         cartId = row.cart_id
         app.logger.info(cartId)
         cart = find_cart(cartId)
@@ -308,34 +311,38 @@ def notifications():
     except Exception as e:
         app.logger.error(e)
         
-    if state == "REQUEST_COMPLETED":
-        app.logger.info('payment was accepted')
-        for item in cart['cart']['items']:
-            product_id = item['product']['id']
-            inventory_count = item['product']['inventory_count']
-            quantity = item['quantity']
+    try:     
+        if state == "REQUEST_COMPLETED":
+            app.logger.info('payment was accepted')
+            for item in cart['cart']['items']:
+                product_id = item['product']['id']
+                inventory_count = item['product']['inventory_count']
+                quantity = item['quantity']
 
-            if inventory_count < quantity:
-                raise Exception('Insufficient inventory')
+                if inventory_count < quantity:
+                    raise Exception('Insufficient inventory')
 
-            cursor.execute('UPDATE products SET inventory_count = inventory_count - ? WHERE id=?', quantity, product_id)
+                cursor.execute('UPDATE products SET inventory_count = inventory_count - ? WHERE id=?', quantity, product_id)
 
             send_invoice(user, cart, twilio)
             app.logger.info('Sent invoice to {}'.format(user['phone']))
-            send_invoice_merchant({ 'name': 'Chris\' Antiques', 'phone': '+15142125431' }, cart, twilio)
+            send_invoice_merchant({ 'name': 'Chris\' Collectibles', 'phone': '+15142125431' }, cart, twilio)
             app.logger.info('Sent invoice to {}'.format('+15142125431'))
 
-    else:
-        app.logger.info('payment failed or abort')
-        send_cancel_invoice(user, cart, twilio)
-        app.logger.info('Sent cancel invoice to {}'.format(user['phone']))
-            
+        else:
+            app.logger.info('payment failed or abort')
+            send_cancel_invoice(user, cart, twilio)
+            app.logger.info('Sent cancel invoice to {}'.format(user['phone']))        
 
-    cursor.execute('DELETE FROM cart_entries WHERE cart_id=?', cartId)
-    cursor.execute('DELETE FROM PendingPayments WHERE cart_id=? and req_id=?', cartId, source_money_req_id)
-    conn.commit()
+        cursor.execute('DELETE FROM cart_entries WHERE cart_id=?', cartId)
+        app.logger.debug('Deleting PendingPayment with cart id {} and req id {}'.format(cartId, source_money_req_id))
+        cursor.execute('DELETE FROM PendingPayments WHERE cart_id=? and req_id=?', cartId, source_money_req_id)
+        conn.commit()
 
-    return Response(json.dumps({ 'message': 'Notification successfully sent' }))
+        return Response(json.dumps({ 'message': 'Notification successfully sent' }))
+    except Exception as e:
+        app.logger.error(e)
+        Response(json.dumps({ 'message': 'Error completing cart' }))
 
 if __name__ == '__main__':
     app.run(debug=True)
