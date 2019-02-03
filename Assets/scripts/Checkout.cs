@@ -5,27 +5,28 @@ using System.Net;
 using TMPro;
 using System.IO;
 using Vuforia;
+using System;
 
 public class Checkout : VuforiaMonoBehaviour
 {
+    string items;
+    float total;
     // Start is called before the first frame update
     void Start()
     {
-        UpdateText();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-       if (this.transform.parent.parent.parent.parent.GetComponent<TrackableBehaviour>().CurrentStatus == TrackableBehaviour.Status.DETECTED)
+    void Update() {
+        if (Input.GetKeyDown("space"))
         {
             UpdateText();
         }
     }
 
-    public void UpdateText()
-    {
+  //{"cart": {"id": "5", "items": [{"product": {"id": 1, "name": "CSE Mints", "price": 3.99, "inventory_count": 67, "description": "Peppermint"}, "quantity": 1}, 
+  //{"product": {"id": 3, "name": "MLH Hardware Sticker", "price": 10.99, "inventory_count": 18, "description": "Presented by Digi-Key"}, "quantity": 2}], "total": 25.97}}
 
+          
+        public void UpdateText() { 
         //int id = this.transform.parent.parent.parent.parent.GetComponent<cartId>().cId;
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/5");
         request.Method = "GET";
@@ -33,11 +34,22 @@ public class Checkout : VuforiaMonoBehaviour
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string jsonResponse = reader.ReadToEnd();
-
-        //jsonRes
+        //Debug.Log(jsonResponse);
+        //string[] items = jsonResponse.Split(new string[] { "\"name\": \"" }, StringSplitOptions.None);
+        //string names = "";
+        //for(int i=1;i<items.Length;i+=2)
+        //{
+        //    names += items[i].Split('"')[0];
+        //}
+        //jsonResponse.Split(new string[] { "\"total\": \"" }, StringSplitOptions.None);
+        jsonResponse = jsonResponse.Replace("\\n", "\n");
+        jsonResponse = jsonResponse.Replace("\\t", "\t");
         this.transform.GetComponent<TextMeshProUGUI>().text = jsonResponse;
+        
+        //this.transform.GetComponent<TextMeshProUGUI>().text += "total:" + total;
 
     }
+
 
     public void CompleteCheckout() 
     {
