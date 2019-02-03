@@ -319,7 +319,6 @@ def find_user(userId):
         return users[0]
     except Exception as e:
         print(e)
-        return Response(json.dumps({ 'cart': None, 'error': 'Error fetching cart with id {}'.format(cartId)}))
 
 @app.route('/notifications', methods=['POST'])
 def notifications():
