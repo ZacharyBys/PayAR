@@ -2,10 +2,11 @@ import requests
 import uuid
 import json
 
+# ADD IDS AND TOKEN
 SEND_PAYMENT_URL = "https://gateway-web.beta.interac.ca/publicapi/api/v2/money-requests/send"
-ACCESS_ID = "CA1TAqC6v2dqXyVX"
-ACCESS_TOKEN = "Bearer ed730ae1-bf19-4a37-93cc-2d572c2aa4b5"
-API_REGISTRATION_ID = "CA1ARqc8sRsFmnsQ"
+ACCESS_ID = ""
+ACCESS_TOKEN = ""
+API_REGISTRATION_ID = ""
 
 def request_payment(user,amount,paymentType):
     device_id = str(uuid.uuid4().hex)
@@ -21,6 +22,3 @@ def request_payment(user,amount,paymentType):
 
     r = requests.post(SEND_PAYMENT_URL,headers=headers,data=json.dumps(body))
     return (source_money_request_id, "Payment Requested.")
-
-# userOne = {"phoneNumber":"5142125431","name":"chris"}
-# request_payment(userOne,"30.99","sms")

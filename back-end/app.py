@@ -326,8 +326,9 @@ def notifications():
 
             send_invoice(user, cart, twilio)
             app.logger.info('Sent invoice to {}'.format(user['phone']))
-            send_invoice_merchant({ 'name': 'Chris\' Collectibles', 'phone': '+15142125431' }, cart, twilio)
-            app.logger.info('Sent invoice to {}'.format('+15142125431'))
+            # ADD PHONE NUMBER TO BOTH LINES BELOW
+            send_invoice_merchant({ 'name': 'Chris\' Collectibles', 'phone': '' }, cart, twilio)
+            app.logger.info('Sent invoice to {}'.format(''))
 
         else:
             app.logger.info('payment failed or abort')
