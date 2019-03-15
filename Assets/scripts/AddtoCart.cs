@@ -18,7 +18,7 @@ public class AddtoCart : MonoBehaviour
    public void UpdateText()
     {
         int id = this.transform.parent.parent.parent.GetComponent<productId>().pId;
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/5");
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://dc3e9063.ngrok.io/carts/5");
         request.Method = "PUT";
         request.ContentType = "application/json";
 

@@ -28,7 +28,7 @@ public class Checkout : VuforiaMonoBehaviour
           
         public void UpdateText() { 
         //int id = this.transform.parent.parent.parent.parent.GetComponent<cartId>().cId;
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/5");
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://dc3e9063.ngrok.io/carts/5");
         request.Method = "GET";
 
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
@@ -55,7 +55,7 @@ public class Checkout : VuforiaMonoBehaviour
     {
         //int id = this.transform.parent.parent.parent.parent.GetComponent<cartId>().cId;
         int id = 5;
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/"+id+"/checkout");
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://dc3e9063.ngrok.io/carts/" + id+"/checkout");
         request.Method = "POST";
 
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
