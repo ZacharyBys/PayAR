@@ -1435,6 +1435,21 @@ PrefabInstance:
       propertyPath: m_parseCtrlCharacters
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2460334590463179195, guid: 6d92a0df946894d4997e4f285d33d24a,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2460334590463179195, guid: 6d92a0df946894d4997e4f285d33d24a,
+        type: 3}
+      propertyPath: m_isRichText
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2460334590463179195, guid: 6d92a0df946894d4997e4f285d33d24a,
+        type: 3}
+      propertyPath: m_useMaxVisibleDescender
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2460334590916510131, guid: 6d92a0df946894d4997e4f285d33d24a,
         type: 3}
       propertyPath: m_havePropertiesChanged
