@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="notebook-payr" size="15.200000 22.791077" />
+    <ImageTarget name="balm-payr" size="7.500000 7.566988" />
     <ImageTarget name="laptop-payr" size="31.500000 23.256153" />
     <ImageTarget name="perfume-payar" size="7.500000 5.791974" />
     <ImageTarget name="calculator-payar" size="16.000000 8.157521" />
