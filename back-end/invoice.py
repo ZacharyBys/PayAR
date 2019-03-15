@@ -1,7 +1,7 @@
 from twilio.rest import Client
 
-account_sid = 'ACf15f803466e552406bc7159a2799755b'
-auth_token = 'dfd6cab4f988fb3374156b471ad1ab2e'
+account_sid = ''
+auth_token = ''
 twilio_number = '+16474902397'
 
 def make_twilio_client():

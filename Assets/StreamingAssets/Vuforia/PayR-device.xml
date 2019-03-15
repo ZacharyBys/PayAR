@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="perfume-payar" size="7.500000 5.791974" />
+    <ImageTarget name="calculator-payar" size="16.000000 8.157521" />
+    <ImageTarget name="5-gum" size="12.750000 8.295879" />
     <ImageTarget name="McHacks_Badge" size="12.600000 17.696527" />
     <ImageTarget name="mlh_sticker" size="14.500000 7.236883" />
     <ImageTarget name="mints" size="8.900000 6.975566" />

@@ -2,9 +2,10 @@ import requests
 import uuid
 import json
 
+# ADD IDS AND TOKEN
 SEND_PAYMENT_URL = "https://gateway-web.beta.interac.ca/publicapi/api/v2/money-requests/send"
 ACCESS_ID = "CA1TAqC6v2dqXyVX"
-ACCESS_TOKEN = "Bearer ed730ae1-bf19-4a37-93cc-2d572c2aa4b5"
+ACCESS_TOKEN = "Bearer 03e0e0e6-3b5a-498c-b5db-61a8d6dd8b96"
 API_REGISTRATION_ID = "CA1ARqc8sRsFmnsQ"
 
 def request_payment(user,amount,paymentType):
@@ -17,10 +18,10 @@ def request_payment(user,amount,paymentType):
 
     notification_preferences = { "handle": handle, "handleType": paymentType,"active":"true"}
     requested_from = { "contactName":user["name"],"language":"en", "notificationPreferences": [notification_preferences]}
-    body = { "sourceMoneyRequestId": source_money_request_id, "requestedFrom":requested_from, "amount":amount,"currency":"CAD","editableFulfillAmount": "false","supressResponderNotifications":"false", "requesterMessage":source_money_request_id,"expiryDate": "2019-02-30T16:12:12.721Z"}
+    body = { "sourceMoneyRequestId": source_money_request_id, "requestedFrom":requested_from, "amount":amount,"currency":"CAD","editableFulfillAmount": "false","supressResponderNotifications":"false", "requesterMessage":source_money_request_id,"expiryDate": "2019-03-30T16:12:12.721Z"}
 
     r = requests.post(SEND_PAYMENT_URL,headers=headers,data=json.dumps(body))
     return (source_money_request_id, "Payment Requested.")
 
-# userOne = {"phoneNumber":"5142125431","name":"chris"}
+# userOne = {"phone":"5142125431","name":"chris"}
 # request_payment(userOne,"30.99","sms")
