@@ -18,7 +18,6 @@ void Start()
     }
 
     public void UpdateText()
-
     {
         int id = this.transform.parent.parent.parent.GetComponent<productId>().pId;
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://dc3e9063.ngrok.io/carts/5");
@@ -39,10 +38,15 @@ void Start()
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string jsonResponse = reader.ReadToEnd();
         jsonResponse.Replace("\"", "");
+        StartCoroutine(UpdatePopUp(jsonResponse));
+    }
+
+    IEnumerator UpdatePopUp(string jsonResponse)
+    {
+
         this.transform.GetComponent<TextMeshProUGUI>().text = jsonResponse;
         yield return new WaitForSeconds(5);
         this.transform.GetComponent<TextMeshProUGUI>().text = "";
-
     }
     // Update is called once per frame
     void Update()
