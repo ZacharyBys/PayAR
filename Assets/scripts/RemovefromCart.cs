@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class RemovefromCart : MonoBehaviour
 {
@@ -39,6 +40,9 @@ void Start()
         string jsonResponse = reader.ReadToEnd();
         jsonResponse.Replace("\"", "");
         this.transform.GetComponent<TextMeshProUGUI>().text = jsonResponse;
+        yield return new WaitForSeconds(5);
+        this.transform.GetComponent<TextMeshProUGUI>().text = "";
+
     }
     // Update is called once per frame
     void Update()

@@ -37,6 +37,8 @@ public class AddtoCart : MonoBehaviour
         string jsonResponse = reader.ReadToEnd();
         jsonResponse.Replace("\"", "");
         this.transform.GetComponent<TextMeshProUGUI>().text = jsonResponse;
+        yield return new WaitForSeconds(5);
+        this.transform.GetComponent<TextMeshProUGUI>().text = "";
     }
     // Update is called once per frame
     void Update()
