@@ -4,6 +4,7 @@ from flask import Response
 from flask import request
 from invoice import make_twilio_client, send_invoice, send_invoice_merchant, send_cancel_invoice
 
+import sqlite3
 import pyodbc
 import json
 import payment_handler
@@ -14,7 +15,7 @@ server = 'pay-r.database.windows.net'
 database = 'pay-r'
 username = 'pay-r'
 password = 'Party123'
-driver= '{SQL Server}'
+driver= '{ODBC Driver 17 for SQL Server}'
 
 def get_twilio_client():
     if not hasattr(g, 'twilio'):
@@ -33,7 +34,86 @@ def close_db(error):
         g.conn.close()
     
 def get_db_connection():
-    return pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password)
+    try:
+        conn = sqlite3.connect('db.db')
+
+        products = '''
+            CREATE TABLE IF NOT EXISTS `products` (
+            `id` INTEGER primary key autoincrement,
+            `name` INTEGER NOT NULL,
+            `price` DECIMAL(19,4) NOT NULL,
+            `inventory_count` INTEGER NOT NULL DEFAULT 0,
+            `description` VARCHAR(45));
+            '''
+
+        cart_entries = '''
+            CREATE TABLE IF NOT EXISTS `cart_entries` (
+            `id` INTEGER primary key autoincrement,
+            `cart_id` INTEGER NOT NULL,
+            `product_id` INTEGER NOT NULL,
+            CONSTRAINT `fk_PRODUCT_ID1`
+                FOREIGN KEY (`product_id`)
+                REFERENCES `products` (`id`)
+                ON DELETE NO ACTION
+                ON UPDATE NO ACTION);
+            '''
+
+        pending = '''
+            CREATE TABLE IF NOT EXISTS `PendingPayments` (
+            `id` INTEGER primary key autoincrement,
+            `cart_id` INTEGER NOT NULL,
+            `req_id` VARCHAR(32) NOT NULL);
+        '''
+
+        shops = '''
+            CREATE TABLE IF NOT EXISTS `shops` (
+            `id` INTEGER primary key autoincrement,
+            `name` VARCHAR(50) NOT NULL,
+            `email` VARCHAR(50) NOT NULL,
+            `phone` INTEGER NOT NULL);
+        '''
+
+        users ='''
+            CREATE TABLE IF NOT EXISTS `users` (
+            `id` INTEGER primary key autoincrement,
+            `name` VARCHAR(50) NOT NULL,
+            `phone` INTEGER NOT NULL,
+            `code` INTEGER NOT NULL,
+            `email` VARCHAR(50) NOT NULL);
+
+        '''
+
+        some_products = '''
+            insert into products (name, price, inventory_count, description) values 
+            ('SHARP EL-531X', 19.99, 7, 'ENCS-approved calculator'),
+            ('Shea Mositure Beard Balm', 8.99, 7, 'Look good, smell great!')
+        '''
+
+        some_users = '''
+            insert into users (name, phone, code, email) values 
+            ('Jay Wreh', 5148362376, 1, 'jeremiahdavid.wreh@gmail.com')
+        '''
+
+        some_shops = '''
+            insert into shops (name, email, phone) values
+            ('Bys Buy', 'zachary.bys@gmail.com', 5149701830)
+        '''
+
+
+        conn.execute(products)
+        conn.execute(cart_entries)
+        conn.execute(pending)
+        conn.execute(shops)
+        conn.execute(users)
+
+        conn.execute(some_users)
+        conn.execute(some_shops)
+        conn.execute(some_products)
+        return conn
+    except Exception as e:
+        print(e)    
+
+    # return pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password)
 
 @app.route('/')
 def hello_world():
@@ -48,10 +128,10 @@ def shop(shopId):
         row = cursor.execute('SELECT * FROM shops WHERE ID=?', shopId).fetchone()   
         shop = { 
             'shop': {
-                'id': row.id,
-                'name': row.name,
-                'email': row.email,
-                'phone': row.phone,
+                'id': row[0],
+                'name': row[1],
+                'email': row[2],
+                'phone': row[3],
             },
         }
         return Response(json.dumps(shop), mimetype='application/json')
@@ -67,10 +147,10 @@ def shops():
         rows = cursor.execute('SELECT * FROM shops').fetchall()
         shops = {
             'shops': [{ 
-                'id': row.id,
-                'name': row.name,
-                'email': row.email,
-                'phone': row.phone,
+                'id': row[0],
+                'name': row[1],
+                'email': row[2],
+                'phone': row[3],
             } for row in rows]
         }
         
@@ -87,11 +167,11 @@ def products():
         rows = cursor.execute('SELECT * FROM products').fetchall()
         products = {
             'products': [{ 
-                'id': row.id,
-                'name': row.name,
-                'price': float(row.price),
-                'inventory_count': row.inventory_count,
-                'description': row.description,
+                'id': row[0],
+                'name': row[1],
+                'price': float(row[2]),
+                'inventory_count': row[3],
+                'description': row[4],
             } for row in rows]
         }
         
@@ -110,11 +190,11 @@ def product(productId):
         row = cursor.execute('SELECT * FROM products WHERE id=?', productId).fetchone()
         product = {
             'product': { 
-                'id': row.id,
-                'name': row.name,
-                'price': float(row.price),
-                'inventory_count': row.inventory_count,
-                'description': row.description,
+                'id': row[0],
+                'name': row[1],
+                'price': float(row[2]),
+                'inventory_count': row[3],
+                'description': row[4],
             }
         }
         
@@ -151,11 +231,11 @@ def find_cart(cartId):
         cartId).fetchall()
 
         products = [{ 
-            'id': row.product_id,
-            'name': row.name,
-            'price': float(row.price),
-            'inventory_count': row.inventory_count,
-            'description': row.description,
+            'id': row[0],
+            'name': row[1],
+            'price': float(row[2]),
+            'inventory_count': row[3],
+            'description': row[4],
         } for row in rows]
 
         quantities = {}
@@ -230,7 +310,7 @@ def checkout(cartId):
 
     try:
         source_money_req_id, message = payment_handler.request_payment(user, str(cart['cart']['total']), "sms")
-        cursor.execute('INSERT into PendingPayments (req_id, cart_id) values (?, ?)', source_money_req_id, cartId)
+        cursor.execute('INSERT INTO PendingPayments (req_id, cart_id) values (?, ?)', source_money_req_id, cartId)
         conn.commit()
         app.logger.info('Order for cart with id {} is now pending'.format(cartId))
         return Response(json.dumps({
@@ -250,11 +330,11 @@ def users():
         rows = cursor.execute('SELECT * FROM users').fetchall()
         users = {
             'users': [{ 
-                'id': row.id,
-                'name': row.name,
-                'phone': row.phone,
-                'code': row.code,
-                'email': row.email,
+                'id': row[0],
+                'name': row[1],
+                'phone': row[2],
+                'code': row[3],
+                'email': row[4],
             } for row in rows]
         }
         
@@ -277,11 +357,11 @@ def find_user(userId):
         userId).fetchone()
 
         user = { 
-            'id': row.id,
-            'name': row.name,
-            'phone': row.phone,
-            'code': row.code,
-            'email': row.email,
+                'id': row[0],
+                'name': row[1],
+                'phone': row[2],
+                'code': row[3],
+                'email': row[4],
         }
 
         app.logger.info(user)
