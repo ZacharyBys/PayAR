@@ -86,7 +86,10 @@ def get_db_connection():
         some_products = '''
             insert into products (name, price, inventory_count, description) values 
             ('SHARP EL-531X', 19.99, 7, 'ENCS-approved calculator'),
-            ('Shea Mositure Beard Balm', 8.99, 7, 'Look good, smell great!')
+            ('Shea Mositure Beard Balm', 8.99, 7, 'Look good, smell great!'),
+            ('Romance by Amarisse', 39.99, 3, 'Rosepetal Scented'),
+            ('Surface Pro Book', 99.99, 1, 'The best 2-in-1'),
+            ('Mints', 2.95, 5, 'Keep away bad breath with these hacker mints')
         '''
 
         some_users = '''
@@ -229,7 +232,7 @@ def find_cart(cartId):
             WHERE cart_id=?
         ''', 
         cartId).fetchall()
-
+        print(rows)
         products = [{ 
             'id': row[0],
             'name': row[1],
@@ -277,7 +280,7 @@ def insert_cart_entry(cartId, productId):
     conn = get_db()
     cursor = conn.cursor()
     try:
-        cursor.execute('INSERT INTO cart_entries (cart_id, product_id) VALUES (?, ?)', cartId, productId)
+        cursor.execute('INSERT INTO cart_entries (cart_id, product_id) VALUES (?, ?)', (cartId, productId))
         conn.commit()
         app.logger.info('Added item with id {} to cart with id {}'.format(productId, cartId))
         return 'Item added to cart'
@@ -289,7 +292,12 @@ def delete_cart_entry(cartId, productId):
     conn = get_db()
     cursor = conn.cursor()
     try:
-        row = cursor.execute('DELETE TOP(1) FROM cart_entries WHERE cart_id=? AND product_id=?', cartId, productId)
+        row = cursor.execute('SELECT id FROM cart_entries WHERE cart_id=? AND product_id=?'(cartId, productId)).fetchone()
+        if len(row) == 0:
+            return 'Item not in cart'
+
+        row_to_delete = row[0]
+        row = cursor.execute('DELETE FROM cart_entries WHERE id=?', row_to_delete)
         conn.commit()
         app.logger.info('Removed item with id {} to cart with id {}'.format(productId, cartId))
         return 'Item removed from cart'
@@ -310,7 +318,7 @@ def checkout(cartId):
 
     try:
         source_money_req_id, message = payment_handler.request_payment(user, str(cart['cart']['total']), "sms")
-        cursor.execute('INSERT INTO PendingPayments (req_id, cart_id) values (?, ?)', source_money_req_id, cartId)
+        cursor.execute('INSERT INTO PendingPayments (req_id, cart_id) values (?, ?)', (source_money_req_id, cartId))
         conn.commit()
         app.logger.info('Order for cart with id {} is now pending'.format(cartId))
         return Response(json.dumps({
@@ -402,12 +410,12 @@ def notifications():
                 if inventory_count < quantity:
                     raise Exception('Insufficient inventory')
 
-                cursor.execute('UPDATE products SET inventory_count = inventory_count - ? WHERE id=?', quantity, product_id)
+                cursor.execute('UPDATE products SET inventory_count = inventory_count - ? WHERE id=?', (quantity, product_id))
 
             send_invoice(user, cart, twilio)
             app.logger.info('Sent invoice to {}'.format(user['phone']))
             # ADD PHONE NUMBER TO BOTH LINES BELOW
-            send_invoice_merchant({ 'name': 'Chris\' Collectibles', 'phone': '' }, cart, twilio)
+            send_invoice_merchant({ 'name': 'Bys Buy', 'phone': '' }, cart, twilio)
             app.logger.info('Sent invoice to {}'.format(''))
 
         else:
@@ -417,7 +425,7 @@ def notifications():
 
         cursor.execute('DELETE FROM cart_entries WHERE cart_id=?', cartId)
         app.logger.debug('Deleting PendingPayment with cart id {} and req id {}'.format(cartId, source_money_req_id))
-        cursor.execute('DELETE FROM PendingPayments WHERE cart_id=? and req_id=?', cartId, source_money_req_id)
+        cursor.execute('DELETE FROM PendingPayments WHERE cart_id=? and req_id=?', (cartId, source_money_req_id))
         conn.commit()
 
         return Response(json.dumps({ 'message': 'Notification successfully sent' }))
