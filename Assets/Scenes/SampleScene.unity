@@ -159,7 +159,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 131985949}
+  - {fileID: 43969435}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -298,7 +298,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 503025764}
+  - {fileID: 1885555688}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -390,6 +390,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pId: 1
+--- !u!21 &43969435
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'perfume-payarMaterial
+
+    22982'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 33319ba195b24e51ba79da52428b9567, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
 --- !u!1 &111941400
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +465,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 393688897}
+  - {fileID: 970393122}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -689,62 +717,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!21 &130487185
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'balm-payrMaterial
-
-    17380'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 3969bd07fa804762bb14e7addb35d861, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
---- !u!21 &131985949
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'perfume-payarMaterial
-
-    16632'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 33319ba195b24e51ba79da52428b9567, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,6 +946,62 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!21 &233248832
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'calculator-payarMaterial
+
+    23458'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: e123a9f000db41cea17cbbc21f693418, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
+--- !u!21 &237197918
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'excel-gumMaterial
+
+    24100'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: c19492d46f944e85ae9c4bbd3639801b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
 --- !u!43 &308264999
 Mesh:
   m_ObjectHideFlags: 0
@@ -1180,7 +1208,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1455985093}
+  - {fileID: 1161804342}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1259,34 +1287,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &393688897
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'laptop-payrMaterial
-
-    16714'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 2b4b1fa96db24b7ca0baafd7da255991, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
 --- !u!21 &447931929
 Material:
   serializedVersion: 6
@@ -1313,34 +1313,6 @@ Material:
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: bf3bd1882e02440a95df9067963c5521, type: 3}
         m_Scale: {x: -1, y: -1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
---- !u!21 &503025764
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'mintsMaterial
-
-    16664'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 255e772d7e0c42eca71c840dcbf6613b, type: 3}
-        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
@@ -1942,7 +1914,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 787036419}
+  - {fileID: 233248832}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2034,34 +2006,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pId: 1
---- !u!21 &721010888
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'mlh_stickerMaterial
-
-    17514'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 022bc77d39e045d4bdf7604b0e8a8984, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
 --- !u!1001 &770831611
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2237,7 +2181,7 @@ PrefabInstance:
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_text
-      value: 3000$
+      value: 8.99$
       objectReference: {fileID: 0}
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -2252,7 +2196,7 @@ PrefabInstance:
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -2277,24 +2221,24 @@ PrefabInstance:
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_text
-      value: 'Great hardware to hack with!
+      value: 'Look Good, Smell Great!
 
 '
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 29
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.spaceCount
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -2304,7 +2248,7 @@ PrefabInstance:
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_firstOverflowCharacterIndex
-      value: 18
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -2339,14 +2283,12 @@ PrefabInstance:
     - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_text
-      value: 'Surface Pro
-
-'
+      value: Shea Beard Balm
       objectReference: {fileID: 0}
     - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 12
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -2356,7 +2298,7 @@ PrefabInstance:
     - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -2391,34 +2333,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 770831611}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &787036419
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'calculator-payarMaterial
-
-    17108'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: e123a9f000db41cea17cbbc21f693418, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
 --- !u!21 &800082370
 Material:
   serializedVersion: 6
@@ -2443,6 +2357,62 @@ Material:
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: bf3bd1882e02440a95df9067963c5521, type: 3}
         m_Scale: {x: -1, y: -1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
+--- !u!21 &970393122
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'laptop-payrMaterial
+
+    23064'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 2b4b1fa96db24b7ca0baafd7da255991, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
+--- !u!21 &984153078
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'mlh_stickerMaterial
+
+    23866'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 022bc77d39e045d4bdf7604b0e8a8984, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
@@ -2721,6 +2691,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d92a0df946894d4997e4f285d33d24a, type: 3}
+--- !u!21 &1161804342
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'notebook-payrMaterial
+
+    23264'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 4c627c33ac18407cbca87c3965425ea7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
 --- !u!43 &1231585303
 Mesh:
   m_ObjectHideFlags: 0
@@ -3060,7 +3058,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 130487185}
+  - {fileID: 1889615333}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3327,7 +3325,7 @@ PrefabInstance:
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_text
-      value: 3000$
+      value: 99.99$
       objectReference: {fileID: 0}
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -3342,17 +3340,17 @@ PrefabInstance:
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_firstOverflowCharacterIndex
-      value: 5
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -3429,14 +3427,14 @@ PrefabInstance:
     - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_text
-      value: 'Surface Pro
+      value: 'Surface Book
 
 '
       objectReference: {fileID: 0}
     - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -3851,22 +3849,16 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!224 &1367875084 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2460334589761763802, guid: 6d92a0df946894d4997e4f285d33d24a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1151697693}
-  m_PrefabAsset: {fileID: 0}
---- !u!21 &1455985093
+--- !u!21 &1320677877
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 'notebook-payrMaterial
+  m_Name: 'McHacks_BadgeMaterial
 
-    16914'
+    24044'
   m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
@@ -3879,12 +3871,18 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4c627c33ac18407cbca87c3965425ea7, type: 3}
+        m_Texture: {fileID: 2800000, guid: fe0c591f63884f9dace0c7b61f97ea1e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
     - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
+--- !u!224 &1367875084 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2460334589761763802, guid: 6d92a0df946894d4997e4f285d33d24a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1151697693}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1530652274
 GameObject:
   m_ObjectHideFlags: 0
@@ -3951,34 +3949,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1538793838
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'excel-gumMaterial
-
-    17748'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: c19492d46f944e85ae9c4bbd3639801b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
 --- !u!1 &1557965039
 GameObject:
   m_ObjectHideFlags: 0
@@ -4026,7 +3996,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 721010888}
+  - {fileID: 984153078}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4764,24 +4734,24 @@ PrefabInstance:
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_text
-      value: 'Great hardware to hack with!
+      value: 'Rose petal scented.
 
 '
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 29
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.spaceCount
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -4796,12 +4766,12 @@ PrefabInstance:
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_firstOverflowCharacterIndex
-      value: 18
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8493163458784748082, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -5063,12 +5033,12 @@ PrefabInstance:
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_text
-      value: 10.99$
+      value: 19.99$
       objectReference: {fileID: 0}
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2860938385042563582, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -5093,14 +5063,12 @@ PrefabInstance:
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_text
-      value: 'Great hardware to hack with!
-
-'
+      value: Calculate with the best of them!
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 29
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -5110,7 +5078,7 @@ PrefabInstance:
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -5125,12 +5093,12 @@ PrefabInstance:
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_firstOverflowCharacterIndex
-      value: 18
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8493163458784748082, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
@@ -5526,7 +5494,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2046205769}
+  - {fileID: 1320677877}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5827,6 +5795,62 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a128ea84867604d29a659ff4e71f6a8c, type: 3}
+--- !u!21 &1885555688
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'mintsMaterial
+
+    23014'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 255e772d7e0c42eca71c840dcbf6613b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
+--- !u!21 &1889615333
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 'balm-payrMaterial
+
+    23730'
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 3969bd07fa804762bb14e7addb35d861, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
 --- !u!43 &1984607861
 Mesh:
   m_ObjectHideFlags: 0
@@ -6034,7 +6058,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1538793838}
+  - {fileID: 237197918}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6126,34 +6150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pId: 2
---- !u!21 &2046205769
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 'McHacks_BadgeMaterial
-
-    17692'
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: fe0c591f63884f9dace0c7b61f97ea1e, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors:
-    - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
 --- !u!21 &2069757701
 Material:
   serializedVersion: 6
@@ -6385,6 +6381,31 @@ PrefabInstance:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_text
+      value: Keep away bad breath with these hacker mints!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8477451308035886497, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8493163458784748082, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_havePropertiesChanged
@@ -6403,6 +6424,28 @@ PrefabInstance:
     - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
         type: 3}
       propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_text
+      value: 'Mints
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806545781061984289, guid: a128ea84867604d29a659ff4e71f6a8c,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 77383541197021820, guid: a128ea84867604d29a659ff4e71f6a8c,
