@@ -232,7 +232,7 @@ def find_cart(cartId):
             WHERE cart_id=?
         ''', 
         cartId).fetchall()
-        print(rows)
+
         products = [{ 
             'id': row[1],
             'name': row[2],
@@ -292,7 +292,7 @@ def delete_cart_entry(cartId, productId):
     conn = get_db()
     cursor = conn.cursor()
     try:
-        row = cursor.execute('SELECT id FROM cart_entries WHERE cart_id=? AND product_id=?'(cartId, productId)).fetchone()
+        row = cursor.execute('SELECT id FROM cart_entries WHERE cart_id=? AND product_id=?', (cartId, productId)).fetchall()
         if len(row) == 0:
             return 'Item not in cart'
 
