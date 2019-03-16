@@ -114,7 +114,7 @@ def get_db_connection():
         conn.execute(some_products)
         return conn
     except Exception as e:
-        print(e)    
+        app.logger.error(e)    
 
     # return pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password)
 
@@ -180,7 +180,7 @@ def products():
         
         return Response(json.dumps(products), mimetype='application/json')
     except Exception as e:
-        print(e)
+        app.logger.error(e)
         return Response(json.dumps({ 'products': None, 'error': 'Error fetching products' }), mimetype='application/json')
 
 
@@ -231,7 +231,7 @@ def find_cart(cartId):
                 cart_entries.product_id = products.id 
             WHERE cart_id=?
         ''', 
-        cartId).fetchall()
+        (cartId,)).fetchall()
 
         products = [{ 
             'id': row[1],
@@ -273,7 +273,7 @@ def find_cart(cartId):
             } 
         }
     except Exception as e:
-        print(e)
+        app.logger.error(e)
         return { 'cart': None, 'error': 'Error fetching cart with id {}'.format(cartId)}
 
 def insert_cart_entry(cartId, productId):
@@ -285,7 +285,7 @@ def insert_cart_entry(cartId, productId):
         app.logger.info('Added item with id {} to cart with id {}'.format(productId, cartId))
         return 'Item added to cart'
     except Exception as e:
-        print(e)
+        app.logger.error(e)
         return { 'error': 'Error adding product with id {} to cart with id {}'.format(productId, cartId) }
 
 def delete_cart_entry(cartId, productId):
@@ -302,7 +302,7 @@ def delete_cart_entry(cartId, productId):
         app.logger.info('Removed item with id {} to cart with id {}'.format(productId, cartId))
         return 'Item removed from cart'
     except Exception as e:
-        print(e)
+        app.logger.error(e)
         return { 'error': 'Error deleting product with id {} from cart with id {}'.format(productId, cartId) }
 
 @app.route('/carts/<cartId>/checkout', methods=['POST'])
@@ -348,7 +348,7 @@ def users():
         
         return Response(json.dumps(users), mimetype='application/json')
     except Exception as e:
-        print(e)
+        app.logger.error(e)
         return Response(json.dumps({ 'users': None, 'error': 'Error fetching products' }), mimetype='application/json')
 
 def find_user(userId):
@@ -362,20 +362,19 @@ def find_user(userId):
                 users
             WHERE id=?
         ''', 
-        userId).fetchone()
+        (userId,)).fetchone()
 
         user = { 
-                'id': row[0],
-                'name': row[1],
-                'phone': row[2],
-                'code': row[3],
-                'email': row[4],
+            'id': row[0],
+            'name': row[1],
+            'phone': row[2],
+            'code': row[3],
+            'email': row[4],
         }
 
-        app.logger.info(user)
         return user
     except Exception as e:
-        print(e)
+        app.logger.error(e)
 
 @app.route('/notifications', methods=['POST'])
 def notifications():
@@ -391,16 +390,15 @@ def notifications():
     user = None
     cart = None
     try:
-        row = cursor.execute('SELECT * FROM PendingPayments WHERE req_id=?', source_money_req_id).fetchone()
-        cartId = row.cart_id
-        app.logger.info(cartId)
+        row = cursor.execute('SELECT * FROM PendingPayments WHERE req_id=?', [source_money_req_id]).fetchone()
+        cartId = row[1]
         cart = find_cart(cartId)
         user = find_user(cartId)
     except Exception as e:
         app.logger.error(e)
-        
+
     try:     
-        if state == "REQUEST_COMPLETED":
+        if state == "REQUEST_COMPLETED" or state == "REQUEST_FULFILLED":
             app.logger.info('payment was accepted')
             for item in cart['cart']['items']:
                 product_id = item['product']['id']
@@ -410,20 +408,21 @@ def notifications():
                 if inventory_count < quantity:
                     raise Exception('Insufficient inventory')
 
-                cursor.execute('UPDATE products SET inventory_count = inventory_count - ? WHERE id=?', (quantity, product_id))
+                query = 'UPDATE products SET inventory_count = inventory_count - {} WHERE id=?'.format(quantity)
+                cursor.execute(query, [product_id])
 
             send_invoice(user, cart, twilio)
             app.logger.info('Sent invoice to {}'.format(user['phone']))
             # ADD PHONE NUMBER TO BOTH LINES BELOW
-            send_invoice_merchant({ 'name': 'Bys Buy', 'phone': '' }, cart, twilio)
-            app.logger.info('Sent invoice to {}'.format(''))
+            send_invoice_merchant({ 'name': 'Bys Buy', 'phone': '5148362376' }, cart, twilio)
+            app.logger.info('Sent invoice to {}'.format('5148362376'))
 
         else:
             app.logger.info('payment failed or abort')
             send_cancel_invoice(user, cart, twilio)
             app.logger.info('Sent cancel invoice to {}'.format(user['phone']))        
 
-        cursor.execute('DELETE FROM cart_entries WHERE cart_id=?', cartId)
+        cursor.execute('DELETE FROM cart_entries WHERE cart_id=?', [cartId])
         app.logger.debug('Deleting PendingPayment with cart id {} and req id {}'.format(cartId, source_money_req_id))
         cursor.execute('DELETE FROM PendingPayments WHERE cart_id=? and req_id=?', (cartId, source_money_req_id))
         conn.commit()

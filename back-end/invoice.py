@@ -23,7 +23,7 @@ def get_order_summary(order):
 def send_invoice(to_user, cart, twilio):
     name = to_user['name']
     to_number = to_user['phone']
-    shop = 'Chris\' Antiques'
+    shop = 'Bys Buy'
     formattedOrderSummary = get_order_summary(cart['cart'])
 
     invoice = '''
