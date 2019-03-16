@@ -35,7 +35,7 @@ def close_db(error):
     
 def get_db_connection():
     try:
-        conn = sqlite3.connect('db.db')
+        conn = sqlite3.connect('payar.db')
 
         products = '''
             CREATE TABLE IF NOT EXISTS `products` (
@@ -234,11 +234,11 @@ def find_cart(cartId):
         cartId).fetchall()
         print(rows)
         products = [{ 
-            'id': row[0],
-            'name': row[1],
-            'price': float(row[2]),
-            'inventory_count': row[3],
-            'description': row[4],
+            'id': row[1],
+            'name': row[2],
+            'description': row[3],
+            'price': float(row[4]),
+            'inventory_count': row[5],
         } for row in rows]
 
         quantities = {}
