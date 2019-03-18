@@ -4,13 +4,41 @@ using UnityEngine;
 using System.Net;
 using TMPro;
 using System.IO;
-using Vuforia;
-using System;
-
 public class Checkout : VuforiaMonoBehaviour
 {
-    string items;
-    float total;
+[System.Serializable]
+public class CheckoutResponse
+{
+    public string message;
+}
+[System.Serializable]
+public class Response 
+{
+    public Cart cart;
+}
+[System.Serializable]
+public class Cart
+{
+    public int id;
+    public List<Item> items;
+    public double total;
+}
+[System.Serializable]
+public class Item
+{  
+    public Product product;
+    public int quantity;
+}
+[System.Serializable]
+public class Product
+{
+    public int id;
+    public string name;
+    public float price;
+    public float inventory_count;
+    public string description;
+}
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,32 +50,27 @@ public class Checkout : VuforiaMonoBehaviour
         }
     }
 
-  //{"cart": {"id": "5", "items": [{"product": {"id": 1, "name": "CSE Mints", "price": 3.99, "inventory_count": 67, "description": "Peppermint"}, "quantity": 1}, 
-  //{"product": {"id": 3, "name": "MLH Hardware Sticker", "price": 10.99, "inventory_count": 18, "description": "Presented by Digi-Key"}, "quantity": 2}], "total": 25.97}}
-
-          
-        public void UpdateText() { 
+    //string jsonResponse = "{\"cart\":{\"id\": 5, \"items\": [{\"product\": {\"id\": 1, \"name\": \"CSE Mints\", \"price\": 3.99, \"inventory_count\": 67, \"description\": \"Peppermint\"}, \"quantity\": 1}, {\"product\": {\"id\": 3, \"name\": \"MLH Hardware Sticker\", \"price\": 10.99, \"inventory_count\": 18, \"description\": \"Presented by Digi-Key\"}, \"quantity\": 2}], \"total\": 25.97}}";
+    public void UpdateText() {
+        int id = 5;
         //int id = this.transform.parent.parent.parent.parent.GetComponent<cartId>().cId;
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/5");
+         HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://dc3e9063.ngrok.io/carts/"+id);
         request.Method = "GET";
 
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         StreamReader reader = new StreamReader(response.GetResponseStream());
-        string jsonResponse = reader.ReadToEnd();
-        //Debug.Log(jsonResponse);
-        //string[] items = jsonResponse.Split(new string[] { "\"name\": \"" }, StringSplitOptions.None);
-        //string names = "";
-        //for(int i=1;i<items.Length;i+=2)
-        //{
-        //    names += items[i].Split('"')[0];
-        //}
-        //jsonResponse.Split(new string[] { "\"total\": \"" }, StringSplitOptions.None);
-        jsonResponse = jsonResponse.Replace("\\n", "\n");
-        jsonResponse = jsonResponse.Replace("\\t", "\t");
-        this.transform.GetComponent<TextMeshProUGUI>().text = jsonResponse;
-        
-        //this.transform.GetComponent<TextMeshProUGUI>().text += "total:" + total;
+        string jsonResponse = reader.ReadToEnd(); 
+        Response parsedResponse = JsonUtility.FromJson<Response>(jsonResponse);
+        string Carttext = "";
 
+        for (int i=0; i<parsedResponse.cart.items.Count; ++i) 
+        {
+            Carttext += parsedResponse.cart.items[i].product.name + "\n $" + parsedResponse.cart.items[i].product.price + "\t x" + parsedResponse.cart.items[i].quantity +"\n";
+        }
+
+        Carttext += "\n--------------------------\n";
+        Carttext += "Your total: $" + parsedResponse.cart.total;
+        this.transform.GetComponent<TextMeshProUGUI>().text = Carttext;
     }
 
 
@@ -55,13 +78,19 @@ public class Checkout : VuforiaMonoBehaviour
     {
         //int id = this.transform.parent.parent.parent.parent.GetComponent<cartId>().cId;
         int id = 5;
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://480b2321.ngrok.io/carts/"+id+"/checkout");
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://dc3e9063.ngrok.io/carts/" + id+"/checkout");
         request.Method = "POST";
 
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string jsonResponse = reader.ReadToEnd();
-        this.transform.GetComponent<TextMeshProUGUI>().text = jsonResponse;
+        CheckoutResponse parsedResponse = JsonUtility.FromJson<CheckoutResponse>(jsonResponse);
+        StartCoroutine(updateCheckout(parsedResponse.message));
+    }
 
+    IEnumerator updateCheckout(string parsedResponse) {
+        this.transform.GetComponent<TextMeshProUGUI>().text = parsedResponse;
+        yield return new WaitForSeconds(5);
+        this.transform.GetComponent<TextMeshProUGUI>().text = "";
     }
 }
