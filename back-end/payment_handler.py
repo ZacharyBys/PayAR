@@ -21,6 +21,7 @@ def request_payment(user,amount,paymentType):
     body = { "sourceMoneyRequestId": source_money_request_id, "requestedFrom":requested_from, "amount":amount,"currency":"CAD","editableFulfillAmount": "false","supressResponderNotifications":"false", "requesterMessage":source_money_request_id,"expiryDate": "2019-03-30T16:12:12.721Z"}
 
     r = requests.post(SEND_PAYMENT_URL,headers=headers,data=json.dumps(body))
+    
     return (source_money_request_id, "Payment Requested.")
 
 # userOne = {"phone":"5142125431","name":"chris"}

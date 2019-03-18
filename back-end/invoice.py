@@ -1,7 +1,7 @@
 from twilio.rest import Client
 
-account_sid = ''
-auth_token = ''
+account_sid = 'ACf15f803466e552406bc7159a2799755b'
+auth_token = 'dfd6cab4f988fb3374156b471ad1ab2e'
 twilio_number = '+16474902397'
 
 def make_twilio_client():
@@ -23,7 +23,7 @@ def get_order_summary(order):
 def send_invoice(to_user, cart, twilio):
     name = to_user['name']
     to_number = to_user['phone']
-    shop = 'Chris\' Antiques'
+    shop = 'Bys Buy'
     formattedOrderSummary = get_order_summary(cart['cart'])
 
     invoice = '''
