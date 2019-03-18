@@ -85,11 +85,12 @@ def get_db_connection():
 
         some_products = '''
             insert into products (name, price, inventory_count, description) values 
-            ('SHARP EL-531X', 19.99, 7, 'ENCS-approved calculator'),
-            ('Shea Mositure Beard Balm', 8.99, 7, 'Look good, smell great!'),
-            ('Romance by Amarisse', 39.99, 3, 'Rosepetal Scented'),
-            ('Surface Pro Book', 99.99, 1, 'The best 2-in-1'),
-            ('Mints', 2.95, 5, 'Keep away bad breath with these hacker mints')
+            ('SHARP EL-531X', 19.99, 100, 'ENCS-approved calculator'),
+            ('Shea Beard Balm', 8.99, 100, 'Look good, smell great!'),
+            ('Romance by Amarisse', 39.99, 100, 'Rosepetal Scented'),
+            ('Surface Pro Book', 99.99, 100, 'The best 2-in-1'),
+            ('Mints', 2.95, 100, 'Keep away bad breath with these hacker mints'),
+            ('Playing Cards', 5, 100, 'Go fish')
         '''
 
         some_users = '''
@@ -108,10 +109,6 @@ def get_db_connection():
         conn.execute(pending)
         conn.execute(shops)
         conn.execute(users)
-
-        conn.execute(some_users)
-        conn.execute(some_shops)
-        conn.execute(some_products)
         return conn
     except Exception as e:
         app.logger.error(e)    
@@ -121,6 +118,32 @@ def get_db_connection():
 @app.route('/')
 def hello_world():
     return 'Weclome to Pay-R'
+
+@app.route('/seed')
+def seed():
+    conn = get_db()
+    some_products = '''
+    insert into products (name, price, inventory_count, description) values 
+    ('SHARP EL-531X', 19.99, 100, 'ENCS-approved calculator'),
+    ('Shea Mositure Beard Balm', 8.99, 100, 'Look good, smell great!'),
+    ('Romance by Amarisse', 39.99, 100, 'Rosepetal Scented'),
+    ('Dell XPS 13', 99.99, 100, 'The best ultrabook'),
+    ('Mints', 2.95, 100, 'Keep away bad breath with these hacker mints'),
+    ('Playing Cards', 5, 100, '')
+'''
+
+    some_users = '''
+        insert into users (name, phone, code, email) values 
+        ('Jay Wreh', 5148362376, 1, 'jeremiahdavid.wreh@gmail.com')
+    '''
+
+    some_shops = '''
+        insert into shops (name, email, phone) values
+        ('Bys Buy', 'zachary.bys@gmail.com', 5149701830)
+            '''
+    conn.execute(some_users)
+    conn.execute(some_shops)
+    conn.execute(some_products)
 
 @app.route('/shops/<shopId>', methods=['GET'])
 def shop(shopId):
@@ -207,6 +230,17 @@ def product(productId):
 
 @app.route('/carts/<cartId>', methods=['GET', 'PUT', 'DELETE'])
 def cart(cartId):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    try:
+        row = cursor.execute('SELECT * FROM PendingPayments WHERE cart_id=?', [cartId]).fetchone()
+        if row is not None:
+            app.logger.info('Checkout already in progress for cart with id {}'.format(cartId))
+            return Response(json.dumps({ 'cart': None }), mimetype='application/json')
+    except Exception as e:
+        app.logger.error(e)
+        return Response(json.dumps({ 'cart': None, 'error': 'Error checking cart status' }), mimetype='application/json')
     if request.method == 'GET':
         return Response(json.dumps(find_cart(cartId)), mimetype='application/json')
     else:
@@ -317,6 +351,23 @@ def checkout(cartId):
         return Response(json.dumps({ 'error': 'Cannot checkout an empty cart' }))
 
     try:
+        row = cursor.execute('SELECT * FROM PendingPayments WHERE cart_id=?', [cartId]).fetchone()
+        if row is not None:
+            app.logger.info('Checkout already in progress for cart with id {}'.format(cartId))
+            return Response(json.dumps({ 'cart': None, 'message': 'Checkout already in progress' }), mimetype='application/json')
+    except Exception as e:
+        app.logger.error(e)
+        return Response(json.dumps({ 'cart': None, 'error': 'Error checking cart status' }), mimetype='application/json')
+
+    for item in cart['cart']['items']:
+        product_id = item['product']['id']
+        inventory_count = item['product']['inventory_count']
+        quantity = item['quantity']
+
+        if inventory_count < quantity:
+            return Response(json.dumps({ 'error': 'Insufficient inventory to checkout cart' }))
+
+    try:
         source_money_req_id, message = payment_handler.request_payment(user, str(cart['cart']['total']), "sms")
         cursor.execute('INSERT INTO PendingPayments (req_id, cart_id) values (?, ?)', (source_money_req_id, cartId))
         conn.commit()
@@ -414,7 +465,7 @@ def notifications():
             send_invoice(user, cart, twilio)
             app.logger.info('Sent invoice to {}'.format(user['phone']))
             # ADD PHONE NUMBER TO BOTH LINES BELOW
-            send_invoice_merchant({ 'name': 'Bys Buy', 'phone': '5148362376' }, cart, twilio)
+            send_invoice_merchant({ 'name': 'Bys Buy', 'phone': '5149701830' }, cart, twilio)
             app.logger.info('Sent invoice to {}'.format('5148362376'))
 
         else:
