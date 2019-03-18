@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="toronto-payr" size="20.500000 27.081425" />
+    <ImageTarget name="dell-payr" size="13.000000 17.333334" />
+    <ImageTarget name="macbook-payr" size="32.500000 24.375000" />
     <ImageTarget name="notebook-payr" size="15.200000 22.791077" />
     <ImageTarget name="balm-payr" size="7.500000 7.566988" />
     <ImageTarget name="laptop-payr" size="31.500000 23.256153" />
